@@ -19,7 +19,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     private Point startPoint;
     private Point currentPoint;
-    
+
     private boolean mousePressed = false;
     private Color currentColor;
     private ShapeType currentShape;
@@ -38,6 +38,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     /**
      * Do actually painting
+     *
      * @param g
      */
     @Override
@@ -45,7 +46,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         /* Initialize canvas */
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getSize().width, getSize().height);
-        for (IShape shape: shapeStack) {
+        for (IShape shape : shapeStack) {
             shape.draw(g);
         }
 
@@ -61,6 +62,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     /**
      * Get a shape based on start point and current point
+     *
      * @return A shape object
      */
     private IShape getShape() {
@@ -74,18 +76,20 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                 int width = Math.abs(startPoint.getX() - currentPoint.getX());
                 int height = Math.abs(startPoint.getY() - currentPoint.getY());
                 Point leftTop;
-                if (startPoint.getX() < currentPoint.getX()
-                        && startPoint.getY() < currentPoint.getY()) {
-                    leftTop = startPoint;
-                } else if (startPoint.getX() < currentPoint.getX()
-                        && startPoint.getY() > currentPoint.getY()) {
-                    leftTop = new Point(startPoint.getX(), currentPoint.getY());
-                } else if (startPoint.getX() > currentPoint.getX()
-                        && startPoint.getY() > currentPoint.getY()) {
-                    leftTop = currentPoint;
+                if (startPoint.getX() < currentPoint.getX()) {
+                    if (startPoint.getY() < currentPoint.getY()) {
+                        leftTop = startPoint;
+                    } else {
+                        leftTop = new Point(startPoint.getX(), currentPoint.getY());
+                    }
                 } else {
-                    leftTop = new Point(currentPoint.getX(), startPoint.getY());
+                    if (startPoint.getY() < currentPoint.getY()) {
+                        leftTop = new Point(currentPoint.getX(), startPoint.getY());
+                    } else {
+                        leftTop = currentPoint;
+                    }
                 }
+
                 Rectangle rectangle = new Rectangle(leftTop, width, height, currentColor);
                 shape = rectangle;
                 break;
@@ -101,17 +105,18 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                 int oWidth = Math.abs(startPoint.getX() - currentPoint.getX());
                 int oHeight = Math.abs(startPoint.getY() - currentPoint.getY());
                 Point oLeftTop;
-                if (startPoint.getX() < currentPoint.getX()
-                        && startPoint.getY() < currentPoint.getY()) {
-                    oLeftTop = startPoint;
-                } else if (startPoint.getX() < currentPoint.getX()
-                        && startPoint.getY() > currentPoint.getY()) {
-                    oLeftTop = new Point(startPoint.getX(), currentPoint.getY());
-                } else if (startPoint.getX() > currentPoint.getX()
-                        && startPoint.getY() > currentPoint.getY()) {
-                    oLeftTop = currentPoint;
+                if (startPoint.getX() < currentPoint.getX()) {
+                    if (startPoint.getY() < currentPoint.getY()) {
+                        oLeftTop = startPoint;
+                    } else {
+                        oLeftTop = new Point(startPoint.getX(), currentPoint.getY());
+                    }
                 } else {
-                    oLeftTop = new Point(currentPoint.getX(), startPoint.getY());
+                    if (startPoint.getY() < currentPoint.getY()) {
+                        oLeftTop = new Point(currentPoint.getX(), startPoint.getY());
+                    } else {
+                        oLeftTop = currentPoint;
+                    }
                 }
                 Oval oval = new Oval(oLeftTop, oWidth, oHeight, currentColor);
                 shape = oval;
@@ -161,6 +166,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     /**
      * A communication thread can call this method to add shapes to the board
+     *
      * @param shape
      */
     public synchronized void addShape(IShape shape) {
