@@ -24,23 +24,15 @@ public class ServerFrame extends JFrame {
 
         setLayout(new BorderLayout());
         chatPanel.setSize(300, 800);
+
+        initMenuBar();
+        initComponents();
+
+    }
+
+    private void initComponents() {
         add(boardPanel, BorderLayout.CENTER);
         add(chatPanel, BorderLayout.EAST);
-
-        /* Initialize menu bar */
-        JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-        JMenu aboutMenu = new JMenu("About");
-        menuBar.add(fileMenu);
-        menuBar.add(aboutMenu);
-        JMenuItem newMenuItem = new JMenuItem("New");
-        JMenuItem openMenuItem = new JMenuItem("Open");
-        JMenuItem saveMenuItem = new JMenuItem("Save");
-        fileMenu.add(newMenuItem);
-        fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
-        setJMenuBar(menuBar);
-
         boardPanel.setLayout(new BorderLayout());
         PaintBoard paintBoard = new PaintBoard();
         String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"};
@@ -135,6 +127,21 @@ public class ServerFrame extends JFrame {
                 }
             }
         });
+    }
 
+    private void initMenuBar() {
+        /* Initialize menu bar */
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenu aboutMenu = new JMenu("About");
+        menuBar.add(fileMenu);
+        menuBar.add(aboutMenu);
+        JMenuItem newMenuItem = new JMenuItem("New");
+        JMenuItem openMenuItem = new JMenuItem("Open");
+        JMenuItem saveMenuItem = new JMenuItem("Save");
+        fileMenu.add(newMenuItem);
+        fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem);
+        setJMenuBar(menuBar);
     }
 }
