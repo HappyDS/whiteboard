@@ -95,6 +95,7 @@ public class ServerFrame extends JFrame {
             paintBoard.setCurrentColor(color);
         });
         textOpentionPanel.add(buttonTextColorPicker);
+        textOpentionPanel.add(new JLabel("Double click the canvas to add text..."));
 
         optionPanel.add("shapeOption", shapeOptionPanel);
         optionPanel.add("eraserOption", eraserOptionPanel);
