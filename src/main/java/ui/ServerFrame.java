@@ -75,6 +75,10 @@ public class ServerFrame extends JFrame {
         shapeOptionPanel.add(new JLabel("Pen size: "));
         shapeOptionPanel.add(shapeSizeBox);
         JButton buttonColorPicker = new JButton("Select color");
+        buttonColorPicker.addActionListener(e -> {
+            Color color = JColorChooser.showDialog(null, "Choose a color", paintBoard.getCurrentColor());
+            paintBoard.setCurrentColor(color);
+        });
         shapeOptionPanel.add(buttonColorPicker);
 
         optionPanel.add("shapeOption", shapeOptionPanel);

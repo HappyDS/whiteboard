@@ -240,4 +240,8 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         paint(gImage);
         g.drawImage(offScreenImage, 0, 0, null);
     }
+
+    public Color getCurrentColor() {
+        return currentColor;
+    }
 }
