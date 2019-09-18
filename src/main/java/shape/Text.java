@@ -12,7 +12,6 @@ public class Text implements IShape {
     private String string;
     private Font font;
 
-
     public Text(Point position, String string, Font font) {
         this.position = position;
         this.string = string;

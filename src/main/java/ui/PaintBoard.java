@@ -28,7 +28,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private List<Point> eraserPath = new ArrayList<>();
 
     private Image offScreenImage;
-    private int eraseSize = 30;
+    private int eraseSize = 10;
     private int penSize = 1;
 
     public PaintBoard() {
@@ -50,9 +50,6 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     public void paint(Graphics g) {
         /* Initialize canvas */
         g.setColor(Color.WHITE);
-        BasicStroke bs = new BasicStroke(penSize, BasicStroke.CAP_ROUND,
-                BasicStroke.JOIN_BEVEL);
-        ((Graphics2D) g).setStroke(bs);
         g.fillRect(0, 0, getSize().width, getSize().height);
         for (IShape shape : shapeStack) {
             shape.draw(g);
@@ -77,7 +74,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         IShape shape = null;
         switch (currentShape) {
             case LINE:
-                Line line = new Line(startPoint, currentPoint, currentColor);
+                Line line = new Line(startPoint, currentPoint, currentColor, penSize);
                 shape = line;
                 break;
             case RECTANGLE:
@@ -98,7 +95,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                     }
                 }
 
-                Rectangle rectangle = new Rectangle(leftTop, width, height, currentColor);
+                Rectangle rectangle = new Rectangle(leftTop, width, height, currentColor, penSize);
                 shape = rectangle;
                 break;
             case CIRCLE:
@@ -106,7 +103,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                         + Math.pow(startPoint.getY() - currentPoint.getY(), 2));
                 int radiusX = startPoint.getX() - radius / 2;
                 int radiusY = startPoint.getY() - radius / 2;
-                Circle circle = new Circle(new Point(radiusX, radiusY), radius, currentColor);
+                Circle circle = new Circle(new Point(radiusX, radiusY), radius, currentColor, penSize);
                 shape = circle;
                 break;
             case OVAL:
@@ -126,12 +123,12 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                         oLeftTop = currentPoint;
                     }
                 }
-                Oval oval = new Oval(oLeftTop, oWidth, oHeight, currentColor);
+                Oval oval = new Oval(oLeftTop, oWidth, oHeight, currentColor, penSize);
                 shape = oval;
                 break;
             case FREE:
                 freeDraw.add(currentPoint);
-                FreeDraw draw = new FreeDraw(freeDraw, currentColor);
+                FreeDraw draw = new FreeDraw(freeDraw, currentColor, penSize);
                 shape = draw;
                 break;
             case TEXT:
@@ -160,6 +157,9 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         if (currentShape == ShapeType.FREE) {
             freeDraw.add(startPoint);
         }
+        if (currentShape == ShapeType.ERASER) {
+            eraserPath.add(startPoint);
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -169,6 +169,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         IShape shape = getShape();
         addShape(shape);
         freeDraw = new ArrayList<>();
+        eraserPath = new ArrayList<>();
         repaint();
     }
 
@@ -186,18 +187,34 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         shapeStack.push(shape);
     }
 
+    /**
+     * Set color of pen
+     * @param color
+     */
     public void setCurrentColor(Color color) {
         this.currentColor = color;
     }
 
+    /**
+     * Set shape
+     * @param shape
+     */
     public void setCurrentShape(ShapeType shape) {
         this.currentShape = shape;
     }
 
+    /**
+     * Set eraser size
+     * @param eraseSize
+     */
     public void setEraseSize(int eraseSize) {
         this.eraseSize = eraseSize;
     }
 
+    /**
+     * Set pen size
+     * @param penSize
+     */
     public void setPenSize(int penSize) {
         this.penSize = penSize;
     }

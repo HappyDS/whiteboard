@@ -5,6 +5,8 @@ import shape.ShapeType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 public class ServerFrame extends JFrame {
@@ -12,6 +14,9 @@ public class ServerFrame extends JFrame {
     private JPanel boardPanel = new JPanel();
     private JPanel chatPanel = new JPanel();
     private JPanel optionPanel = new JPanel();
+    private JPanel shapeOptionPanel = new JPanel();
+    private JPanel eraserOptionPanel = new JPanel();
+
 
     public ServerFrame() {
         setSize(1000, 800);
@@ -41,6 +46,40 @@ public class ServerFrame extends JFrame {
         PaintBoard paintBoard = new PaintBoard();
         String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"};
         JComboBox<String> optionMenu = new JComboBox<>(optionListData);
+
+        boardPanel.add(paintBoard, BorderLayout.CENTER);
+        boardPanel.add(optionMenu, BorderLayout.NORTH);
+        boardPanel.add(optionPanel, BorderLayout.SOUTH);
+
+        CardLayout cardLayout = new CardLayout();
+        optionPanel.setLayout(cardLayout);
+        shapeOptionPanel.setLayout(new FlowLayout());
+
+        Integer[] eraserSizeData = new Integer[] {10, 20, 30, 40, 50, 60};
+        JComboBox<Integer> eraserSizeBox = new JComboBox<>(eraserSizeData);
+        eraserSizeBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                paintBoard.setEraseSize(eraserSizeData[eraserSizeBox.getSelectedIndex()]);
+            }
+        });
+        eraserOptionPanel.add(new JLabel("Eraser size: "));
+        eraserOptionPanel.add(eraserSizeBox);
+
+        Integer[] shapeSizeData = new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        JComboBox<Integer> shapeSizeBox = new JComboBox<>(shapeSizeData);
+        shapeSizeBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                paintBoard.setPenSize(shapeSizeData[shapeSizeBox.getSelectedIndex()]);
+            }
+        });
+        shapeOptionPanel.add(new JLabel("Pen size: "));
+        shapeOptionPanel.add(shapeSizeBox);
+        JButton buttonColorPicker = new JButton("Select color");
+        shapeOptionPanel.add(buttonColorPicker);
+
+        optionPanel.add("shapeOption", shapeOptionPanel);
+        optionPanel.add("eraserOption", eraserOptionPanel);
+
         optionMenu.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 switch (optionMenu.getSelectedIndex()) {
@@ -66,9 +105,13 @@ public class ServerFrame extends JFrame {
                         paintBoard.setCurrentShape(ShapeType.ERASER);
                         break;
                 }
+                if (optionMenu.getSelectedIndex() == 6) {
+                    cardLayout.show(optionPanel, "eraserOption");
+                } else {
+                    cardLayout.show(optionPanel, "shapeOption");
+                }
             }
         });
-        boardPanel.add(paintBoard, BorderLayout.CENTER);
-        boardPanel.add(optionMenu, BorderLayout.NORTH);
+
     }
 }

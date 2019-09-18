@@ -10,7 +10,7 @@ import java.util.List;
 public class Eraser implements IShape {
     private final int type = 6;
     private List<Point> points;
-    private int size = 20;
+    private int size;
 
     public void draw(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
