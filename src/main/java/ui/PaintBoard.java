@@ -33,7 +33,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         shapeStack = new Stack<IShape>();
 
         /* This variable is for testing purpose */
-        currentShape = ShapeType.OVAL;
+        currentShape = ShapeType.LINE;
     }
 
     /**
