@@ -10,7 +10,7 @@ public class GsonDemo {
     
     public static void main(String[] args) {
         Gson gson = new Gson();
-        
+
         /* Convert Java object to JSON string */
         Student student = new Student(1, "Demo");
         System.out.println(gson.toJson(student));
