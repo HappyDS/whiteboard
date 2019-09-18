@@ -30,7 +30,8 @@ public class Eraser implements IShape {
         graphics2D.setColor(colorBackup);
     }
 
-    public Eraser(List<Point> points) {
+    public Eraser(List<Point> points, int size) {
         this.points = points;
+        this.size = size;
     }
 }

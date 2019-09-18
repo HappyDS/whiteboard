@@ -28,6 +28,8 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private List<Point> eraserPath = new ArrayList<>();
 
     private Image offScreenImage;
+    private int eraseSize = 30;
+    private int penSize = 1;
 
     public PaintBoard() {
         this.addMouseListener(this);
@@ -48,6 +50,9 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     public void paint(Graphics g) {
         /* Initialize canvas */
         g.setColor(Color.WHITE);
+        BasicStroke bs = new BasicStroke(penSize, BasicStroke.CAP_ROUND,
+                BasicStroke.JOIN_BEVEL);
+        ((Graphics2D) g).setStroke(bs);
         g.fillRect(0, 0, getSize().width, getSize().height);
         for (IShape shape : shapeStack) {
             shape.draw(g);
@@ -135,7 +140,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                 break;
             case ERASER:
                 eraserPath.add(currentPoint);
-                Eraser eraser = new Eraser(eraserPath);
+                Eraser eraser = new Eraser(eraserPath, eraseSize);
                 shape = eraser;
                 break;
         }
@@ -189,6 +194,14 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         this.currentShape = shape;
     }
 
+    public void setEraseSize(int eraseSize) {
+        this.eraseSize = eraseSize;
+    }
+
+    public void setPenSize(int penSize) {
+        this.penSize = penSize;
+    }
+
     public void mouseMoved(MouseEvent e) {
 
     }
@@ -203,8 +216,9 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     @Override
     public void update(Graphics g) {
-        if(offScreenImage == null)
+        if(offScreenImage == null) {
             offScreenImage = this.createImage(getWidth(), getHeight());
+        }
         Graphics gImage = offScreenImage.getGraphics();
         paint(gImage);
         g.drawImage(offScreenImage, 0, 0, null);
