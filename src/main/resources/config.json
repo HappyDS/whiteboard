@@ -1,0 +1,9 @@
+{
+  "PaintBoard": {},
+  "Paths": {
+    "resources": ""
+  },
+  "Database": {
+    "SQL_FILE_FILENAME": "server.sqlite3"
+  }
+}
