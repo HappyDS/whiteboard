@@ -1,5 +1,6 @@
 package ui;
 
+import shape.Eraser;
 import shape.ShapeType;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class ServerFrame extends JFrame {
 
         boardPanel.setLayout(new BorderLayout());
         PaintBoard paintBoard = new PaintBoard();
-        String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text"};
+        String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"};
         JComboBox<String> optionMenu = new JComboBox<>(optionListData);
         optionMenu.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -60,6 +61,9 @@ public class ServerFrame extends JFrame {
                         break;
                     case 5:
                         paintBoard.setCurrentShape(ShapeType.TEXT);
+                        break;
+                    case 6:
+                        paintBoard.setCurrentShape(ShapeType.ERASER);
                         break;
                 }
             }

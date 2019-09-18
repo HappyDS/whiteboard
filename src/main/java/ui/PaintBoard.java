@@ -25,6 +25,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private ShapeType currentShape;
 
     private List<Point> freeDraw = new ArrayList<>();   /* A series of points on a free draw path */
+    private List<Point> eraserPath = new ArrayList<>();
 
     public PaintBoard() {
         this.addMouseListener(this);
@@ -124,6 +125,11 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
             case TEXT:
                 Text text = new Text(currentPoint, "Test", getFont());
                 shape = text;
+                break;
+            case ERASER:
+                eraserPath.add(currentPoint);
+                Eraser eraser = new Eraser(eraserPath);
+                shape = eraser;
                 break;
         }
         return shape;

@@ -5,5 +5,5 @@ package shape;
  * @date 18/9/19
  */
 public enum ShapeType {
-    LINE, RECTANGLE, CIRCLE, OVAL, FREE, TEXT
+    LINE, RECTANGLE, CIRCLE, OVAL, FREE, TEXT, ERASER
 }

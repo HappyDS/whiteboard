@@ -15,6 +15,7 @@ public class FreeDraw implements IShape {
     private Color color;
 
     public void draw(Graphics g) {
+        Graphics2D graphics2D = (Graphics2D) g;
         g.setColor(color);
         for (int i = 0; i < points.size() - 1; i++) {
             g.drawLine(points.get(i).getX(), points.get(i).getY(),
