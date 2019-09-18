@@ -27,6 +27,8 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private List<Point> freeDraw = new ArrayList<>();   /* A series of points on a free draw path */
     private List<Point> eraserPath = new ArrayList<>();
 
+    private Image offScreenImage;
+
     public PaintBoard() {
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -197,5 +199,14 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void update(Graphics g) {
+        if(offScreenImage == null)
+            offScreenImage = this.createImage(getWidth(), getHeight());
+        Graphics gImage = offScreenImage.getGraphics();
+        paint(gImage);
+        g.drawImage(offScreenImage, 0, 0, null);
     }
 }
