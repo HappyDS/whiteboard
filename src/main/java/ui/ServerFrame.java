@@ -1,14 +1,12 @@
 package ui;
 
-import shape.Eraser;
 import shape.ShapeType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
+@SuppressWarnings("ALL")
 public class ServerFrame extends JFrame {
 
     private JPanel boardPanel = new JPanel();
@@ -16,6 +14,7 @@ public class ServerFrame extends JFrame {
     private JPanel optionPanel = new JPanel();
     private JPanel shapeOptionPanel = new JPanel();
     private JPanel eraserOptionPanel = new JPanel();
+    private JPanel textOpentionPanel = new JPanel();
 
 
     public ServerFrame() {
@@ -55,7 +54,7 @@ public class ServerFrame extends JFrame {
         optionPanel.setLayout(cardLayout);
         shapeOptionPanel.setLayout(new FlowLayout());
 
-        Integer[] eraserSizeData = new Integer[] {10, 20, 30, 40, 50, 60};
+        Integer[] eraserSizeData = new Integer[]{10, 20, 30, 40, 50, 60};
         JComboBox<Integer> eraserSizeBox = new JComboBox<>(eraserSizeData);
         eraserSizeBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -65,7 +64,7 @@ public class ServerFrame extends JFrame {
         eraserOptionPanel.add(new JLabel("Eraser size: "));
         eraserOptionPanel.add(eraserSizeBox);
 
-        Integer[] shapeSizeData = new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Integer[] shapeSizeData = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         JComboBox<Integer> shapeSizeBox = new JComboBox<>(shapeSizeData);
         shapeSizeBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -81,8 +80,25 @@ public class ServerFrame extends JFrame {
         });
         shapeOptionPanel.add(buttonColorPicker);
 
+        Integer[] textSizeData = new Integer[]{14, 16, 18, 20, 22, 24, 26, 28, 30, 32};
+        JComboBox<Integer> textSizeBox = new JComboBox<>(textSizeData);
+        textSizeBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                paintBoard.setTextSize(textSizeData[textSizeBox.getSelectedIndex()]);
+            }
+        });
+        textOpentionPanel.add(new JLabel("Text size: "));
+        textOpentionPanel.add(textSizeBox);
+        JButton buttonTextColorPicker = new JButton("Select color");
+        buttonTextColorPicker.addActionListener(e -> {
+            Color color = JColorChooser.showDialog(null, "Choose a color", paintBoard.getCurrentColor());
+            paintBoard.setCurrentColor(color);
+        });
+        textOpentionPanel.add(buttonTextColorPicker);
+
         optionPanel.add("shapeOption", shapeOptionPanel);
         optionPanel.add("eraserOption", eraserOptionPanel);
+        optionPanel.add("textOption", textOpentionPanel);
 
         optionMenu.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -111,6 +127,8 @@ public class ServerFrame extends JFrame {
                 }
                 if (optionMenu.getSelectedIndex() == 6) {
                     cardLayout.show(optionPanel, "eraserOption");
+                } else if (optionMenu.getSelectedIndex() == 5) {
+                    cardLayout.show(optionPanel, "textOption");
                 } else {
                     cardLayout.show(optionPanel, "shapeOption");
                 }

@@ -8,18 +8,25 @@ import java.awt.*;
  */
 public class Text implements IShape {
 
+    private final int type = 6;
     private Point position;
     private String string;
-    private Font font;
+    private int size;
+    private Color color;
 
-    public Text(Point position, String string, Font font) {
+    public Text(Point position, String string, int size, Color color) {
         this.position = position;
         this.string = string;
-        this.font = font;
+        this.size = size;
+        this.color = color;
     }
 
-    public void draw(Graphics g) {
-        g.setFont(font);
-        g.drawString(string, position.getX(), position.getY());
+    public void draw(Graphics2D g) {
+        if (string != null) {
+            Font font = new Font(Font.SERIF, Font.PLAIN, size);
+            g.setFont(font);
+            g.setColor(color);
+            g.drawString(string, position.getX(), position.getY());
+        }
     }
 }

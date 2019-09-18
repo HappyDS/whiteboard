@@ -21,11 +21,10 @@ public class Circle implements IShape {
         this.size = size;
     }
 
-    public void draw(Graphics g) {
-        Graphics2D graphics2D = (Graphics2D) g;
+    public void draw(Graphics2D g) {
         BasicStroke bs = new BasicStroke(size, BasicStroke.CAP_ROUND,
                 BasicStroke.JOIN_BEVEL);
-        graphics2D.setStroke(bs);
+        g.setStroke(bs);
         g.setColor(color);
         g.drawArc(center.getX(), center.getY(), radius, radius, 0, 360);
     }

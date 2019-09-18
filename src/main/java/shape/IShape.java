@@ -7,5 +7,5 @@ import java.awt.*;
  * @date 18/9/19
  */
 public interface IShape {
-    void draw(Graphics g);
+    void draw(Graphics2D g);
 }

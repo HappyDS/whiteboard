@@ -1,9 +1,10 @@
 package ui;
 
-import shape.*;
 import shape.Point;
 import shape.Rectangle;
+import shape.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,6 +31,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private Image offScreenImage;
     private int eraseSize = 10;
     private int penSize = 1;
+    private int textSize = 14;
 
     public PaintBoard() {
         this.addMouseListener(this);
@@ -48,11 +50,14 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
      */
     @Override
     public void paint(Graphics g) {
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         /* Initialize canvas */
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, getSize().width, getSize().height);
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.fillRect(0, 0, getSize().width, getSize().height);
         for (IShape shape : shapeStack) {
-            shape.draw(g);
+            shape.draw(graphics2D);
         }
 
         /* If mouse haven't been released */
@@ -60,7 +65,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
             g.setColor(currentColor);
             IShape shape = getShape();
             if (shape != null) {
-                shape.draw(g);
+                shape.draw(graphics2D);
             }
         }
     }
@@ -131,10 +136,10 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                 FreeDraw draw = new FreeDraw(freeDraw, currentColor, penSize);
                 shape = draw;
                 break;
-            case TEXT:
-                Text text = new Text(currentPoint, "Test", getFont());
-                shape = text;
-                break;
+//            case TEXT:
+//                Text text = new Text(currentPoint, "Test", 16, currentColor);
+//                shape = text;
+//                break;
             case ERASER:
                 eraserPath.add(currentPoint);
                 Eraser eraser = new Eraser(eraserPath, eraseSize);
@@ -146,8 +151,14 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2) {
+        if (e.getClickCount() == 2 && currentShape == ShapeType.TEXT) {
             //TODO: Double click to add a dialog for text inputting
+            String input = JOptionPane.showInputDialog(null, "Input text");
+            Text text = new Text(new Point(e.getX(), e.getY()), input, textSize, currentColor);
+//            text.draw(getGraphics());
+            shapeStack.push(text);
+//            text.draw(getGraphics());
+            repaint();
         }
     }
 
@@ -167,6 +178,9 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         currentPoint = new Point(e.getX(), e.getY());
 
         IShape shape = getShape();
+        if (shape == null) {
+            return;
+        }
         addShape(shape);
         freeDraw = new ArrayList<>();
         eraserPath = new ArrayList<>();
@@ -188,15 +202,8 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     /**
-     * Set color of pen
-     * @param color
-     */
-    public void setCurrentColor(Color color) {
-        this.currentColor = color;
-    }
-
-    /**
      * Set shape
+     *
      * @param shape
      */
     public void setCurrentShape(ShapeType shape) {
@@ -205,6 +212,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     /**
      * Set eraser size
+     *
      * @param eraseSize
      */
     public void setEraseSize(int eraseSize) {
@@ -213,6 +221,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     /**
      * Set pen size
+     *
      * @param penSize
      */
     public void setPenSize(int penSize) {
@@ -233,7 +242,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     @Override
     public void update(Graphics g) {
-        if(offScreenImage == null) {
+        if (offScreenImage == null) {
             offScreenImage = this.createImage(getWidth(), getHeight());
         }
         Graphics gImage = offScreenImage.getGraphics();
@@ -243,5 +252,18 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     public Color getCurrentColor() {
         return currentColor;
+    }
+
+    /**
+     * Set color of pen
+     *
+     * @param color
+     */
+    public void setCurrentColor(Color color) {
+        this.currentColor = color;
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
     }
 }
