@@ -27,7 +27,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private Color currentColor;
     private int currentShape;
 
-    private List<Point> freeDraw = new ArrayList<Point>();
+    private List<Point> freeDraw = new ArrayList<>();
 
     public PaintBoard() {
         this.addMouseListener(this);
@@ -145,7 +145,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
         IShape shape = getShape();
         shapeStack.push(shape);
-        freeDraw = new ArrayList<Point>();
+        freeDraw = new ArrayList<>();
         repaint();
     }
 
