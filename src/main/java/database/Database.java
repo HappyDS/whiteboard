@@ -2,6 +2,7 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.*;
 import java.util.Random;
@@ -11,6 +12,8 @@ import com.google.gson.Gson;
 import config.Config;
 import data.types;
 import server.Session;
+
+import java.util.Date;
 
 public class Database {
     //connect immediately when new Database
@@ -93,11 +96,39 @@ public class Database {
         }
     }
 
+    public List<types.Message> getMessages(int countLimited) {
+//        String sql = "SELECT * FROM messages LIMIT ? ORDER BY timestamp ;";
+        String sql = "SELECT * FROM messages LIMIT ?;";
+        List<types.Message> msgList = new ArrayList<>();
+        ResultSet res;
+        try {
+            PreparedStatement pStmt = this.conn.prepareStatement(sql);
+            Date date = new Date();
+            pStmt.setLong(1, countLimited);
+            res = pStmt.executeQuery();
+            while (res.next()) {
+                types.Message msg = new types.Message();
+
+                msg.idx = res.getInt("idx");
+                msg.content = res.getString("content");
+                msg.userUid = res.getInt("userUid");
+                msg.username = res.getString("username");
+                msg.timestamp = res.getLong("timestamp");
+                msgList.add(msg);
+            }
+
+        } catch (SQLException e) {
+            logger.warning(String.format("[*] getMessages failed: %s", e.getMessage()));
+        }
+        return msgList;
+    }
+
 
     public static void main(String[] args) {
         Database db = new Database();
 //        db.getUser("admin");
-        db.updateSession("admin");
+//        db.updateSession("admin");
+        db.getMessages(2);
         System.out.println();
 
     }
