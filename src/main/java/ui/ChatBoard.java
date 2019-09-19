@@ -5,8 +5,6 @@ import util.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author Yangzhe Xie
@@ -21,7 +19,7 @@ public class ChatBoard extends JPanel {
     private JButton sendButton;
 
     public ChatBoard() {
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(5, 5));
 
         msgBox = new JTextArea();
         inputBox = new JTextField();
@@ -57,6 +55,7 @@ public class ChatBoard extends JPanel {
 
     /**
      * Other threads can use this message to append messages
+     *
      * @param msg
      */
     public synchronized void appendMessage(String msg) {

@@ -235,12 +235,20 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     /**
-     *  clear the canvas
+     * clear the canvas
      */
     public void clearShapes() {
         while (!shapeStack.empty()) {
             shapeStack.pop();
         }
+        repaint();
+    }
+
+    /**
+     * undo
+     */
+    public void undo() {
+        shapeStack.pop();
         repaint();
     }
 

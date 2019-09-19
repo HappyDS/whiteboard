@@ -4,8 +4,6 @@ import shape.ShapeType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 @SuppressWarnings("ALL")
@@ -138,15 +136,25 @@ public class ServerFrame extends JFrame {
         /* Initialize menu bar */
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
+        JMenu editMenu = new JMenu("Edit");
         JMenu aboutMenu = new JMenu("About");
         menuBar.add(fileMenu);
+        menuBar.add(editMenu);
         menuBar.add(aboutMenu);
+
         JMenuItem newMenuItem = new JMenuItem("New");
         JMenuItem openMenuItem = new JMenuItem("Open");
         JMenuItem saveMenuItem = new JMenuItem("Save");
         fileMenu.add(newMenuItem);
         fileMenu.add(openMenuItem);
         fileMenu.add(saveMenuItem);
+
+        JMenuItem clearMenuItem = new JMenuItem("Clear");
+        clearMenuItem.addActionListener(e -> paintBoard.clearShapes());
+        JMenuItem redoMenuItem = new JMenuItem("Undo");
+        redoMenuItem.addActionListener(e -> paintBoard.undo());
+        editMenu.add(clearMenuItem);
+        editMenu.add(redoMenuItem);
         setJMenuBar(menuBar);
     }
 }
