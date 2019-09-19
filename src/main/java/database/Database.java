@@ -97,7 +97,8 @@ public class Database {
     }
 
     public List<types.Message> getMessages(int countLimited) {
-        String sql = "SELECT * FROM messages ORDER BY timestamp limit ?;";
+//        String sql = "SELECT * FROM messages LIMIT ? ORDER BY timestamp ;";
+        String sql = "SELECT * FROM messages LIMIT ?;";
         List<types.Message> msgList = new ArrayList<>();
         ResultSet res;
         try {
@@ -126,7 +127,8 @@ public class Database {
     public static void main(String[] args) {
         Database db = new Database();
 //        db.getUser("admin");
-        db.updateSession("admin");
+//        db.updateSession("admin");
+        db.getMessages(2);
         System.out.println();
 
     }
