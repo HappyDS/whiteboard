@@ -43,5 +43,9 @@ public interface types {
             this.session = session;
             this.timestamp = timestamp;
         }
+
+        public User() {
+
+        }
     }
 }
