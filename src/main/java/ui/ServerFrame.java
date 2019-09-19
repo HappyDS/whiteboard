@@ -12,12 +12,12 @@ import java.awt.event.ItemEvent;
 public class ServerFrame extends JFrame {
 
     private JPanel boardPanel = new JPanel();
-    private JPanel chatPanel = new JPanel();
     private JPanel optionPanel = new JPanel();
     private JPanel shapeOptionPanel = new JPanel();
     private JPanel eraserOptionPanel = new JPanel();
     private JPanel textOpentionPanel = new JPanel();
-
+    private ChatBoard chatBoard = new ChatBoard();
+    private PaintBoard paintBoard = new PaintBoard();
 
     public ServerFrame() {
         setSize(1000, 800);
@@ -25,7 +25,6 @@ public class ServerFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         setLayout(new BorderLayout());
-        chatPanel.setSize(300, 800);
 
         initMenuBar();
         initComponents();
@@ -33,10 +32,11 @@ public class ServerFrame extends JFrame {
     }
 
     private void initComponents() {
+        chatBoard.setPreferredSize(new Dimension(300, 800));
         add(boardPanel, BorderLayout.CENTER);
-        add(chatPanel, BorderLayout.EAST);
+        add(chatBoard, BorderLayout.EAST);
         boardPanel.setLayout(new BorderLayout());
-        PaintBoard paintBoard = new PaintBoard();
+//        PaintBoard paintBoard = new PaintBoard();
         String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"};
         JComboBox<String> optionMenu = new JComboBox<>(optionListData);
 
