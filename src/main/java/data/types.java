@@ -21,13 +21,19 @@ public interface types {
         public String content, username;
         public long timestamp;
 
-        Message(int idx, int userUid, String content, long timestamp, String username) {
+        public Message(int idx, int userUid, String content, long timestamp, String username) {
             this.idx = idx;
             this.content = content;
             this.timestamp = timestamp;
             this.userUid = userUid;
             this.username = username;
         }
+
+        public Message() {
+
+        }
+
+
     }
 
     class User {
@@ -47,5 +53,6 @@ public interface types {
         public User() {
 
         }
+
     }
 }
