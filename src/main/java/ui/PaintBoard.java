@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -192,8 +193,15 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
      *
      * @param shape
      */
-    public synchronized void addShape(IShape shape) {
+    public void addShape(IShape shape) {
         shapeStack.push(shape);
+        /* Print all shape as JSON */
+        System.out.println(MsgJsonFactory.toJson(shape));
+    }
+
+    public synchronized void addShapeWithRepaint(IShape shape) {
+        shapeStack.push(shape);
+        repaint();
         /* Print all shape as JSON */
         System.out.println(MsgJsonFactory.toJson(shape));
     }
@@ -250,6 +258,21 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     public void undo() {
         shapeStack.pop();
         repaint();
+    }
+
+    public String exportData() {
+        StringBuilder sb = new StringBuilder();
+        for (IShape shape: shapeStack) {
+            sb.append(MsgJsonFactory.toJson(shape))
+                    .append("\n");
+        }
+        return sb.toString();
+    }
+
+    public BufferedImage exportImage() {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        printAll(image.getGraphics());
+        return image;
     }
 
     @Override

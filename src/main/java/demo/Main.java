@@ -9,6 +9,7 @@ import ui.ServerFrame;
 public class Main {
     public static void main(String[] args) {
         ServerFrame frame = new ServerFrame();
+        frame.setResizable(false);
 
         frame.setVisible(true);
     }
