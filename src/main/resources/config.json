@@ -5,5 +5,9 @@
   },
   "Database": {
     "SQL_FILE_FILENAME": "server.sqlite3"
+  },
+  "Session": {
+    "length":23,
+    "dict": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   }
 }

@@ -4,16 +4,21 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.*;
+import java.util.Random;
+import java.util.concurrent.locks.*;
 
 import com.google.gson.Gson;
 import config.Config;
 import data.types;
+import server.Session;
 
 public class Database {
     //connect immediately when new Database
     private Connection conn = connect();
     private final static Logger logger = Logger.getLogger("Database");
     private final static Config config = new Config();
+
+    private Lock sqlFileLock;
 
 
     private Connection connect() {
@@ -46,12 +51,11 @@ public class Database {
         List<types.User> userList = new ArrayList<>();
         String sql = "SELECT * FROM user WHERE username=?;";
         ResultSet res;
-        try (
-                PreparedStatement pStmt = this.conn.prepareStatement(sql)) {
+        try {
+            PreparedStatement pStmt = this.conn.prepareStatement(sql);
             pStmt.setString(1, username);
             res = pStmt.executeQuery();
             while (res.next()) {
-//                // JSONObject actually put address in, so need new word every time
                 types.User user = new types.User();
                 user.uid = res.getInt("uid");
                 user.username = res.getString("username");
@@ -69,10 +73,32 @@ public class Database {
     }
 
 
+    public void updateSession(String username) {
+        String sql = "UPDATE user SET session=?,timestamp=? WHERE username=?;";
+        try {
+            PreparedStatement pStmt = this.conn.prepareStatement(sql);
+
+            Session session = new Session();
+
+            pStmt.setString(1, session.session);
+            pStmt.setLong(2, session.timestamp);
+            pStmt.setString(3, username);
+
+            this.sqlFileLock.lock();
+            pStmt.executeUpdate();
+            this.sqlFileLock.unlock();
+
+        } catch (SQLException e) {
+            logger.warning(String.format("[*] updateSession failed: %s", e.getMessage()));
+        }
+    }
+
+
     public static void main(String[] args) {
-//        Database db = new Database();
+        Database db = new Database();
 //        db.getUser("admin");
-//        System.out.println();
+        db.updateSession("admin");
+        System.out.println();
 
     }
 }
