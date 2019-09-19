@@ -38,5 +38,4 @@ node_modules
 
 
 ### Database ###
-
-src/main/resources/server.sqlite3
+*.sqlite3
