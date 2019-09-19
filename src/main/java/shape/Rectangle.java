@@ -1,12 +1,14 @@
 package shape;
 
+import msg.IMessage;
+
 import java.awt.*;
 
 /**
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class Rectangle implements IShape {
+public class Rectangle implements IShape, IMessage {
     private final int type = 2;
     private Point leftTop;
     private int width;
@@ -28,5 +30,10 @@ public class Rectangle implements IShape {
         g.setStroke(bs);
         g.setColor(color);
         g.drawRect(leftTop.getX(), leftTop.getY(), width, height);
+    }
+
+    @Override
+    public int getType() {
+        return type;
     }
 }

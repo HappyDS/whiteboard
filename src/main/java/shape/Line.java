@@ -1,12 +1,14 @@
 package shape;
 
+import msg.IMessage;
+
 import java.awt.*;
 
 /**
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class Line implements IShape {
+public class Line implements IShape, IMessage {
     private final int type = 1;
     private Point start;
     private Point end;
@@ -26,5 +28,10 @@ public class Line implements IShape {
         g.setStroke(bs);
         g.setColor(color);
         g.drawLine(start.getX(), start.getY(), end.getX(), end.getY());
+    }
+
+    @Override
+    public int getType() {
+        return type;
     }
 }

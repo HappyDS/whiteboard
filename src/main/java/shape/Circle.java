@@ -1,12 +1,14 @@
 package shape;
 
+import msg.IMessage;
+
 import java.awt.*;
 
 /**
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class Circle implements IShape {
+public class Circle implements IShape, IMessage {
 
     private final int type = 3;
     private Point center;
@@ -27,5 +29,10 @@ public class Circle implements IShape {
         g.setStroke(bs);
         g.setColor(color);
         g.drawArc(center.getX(), center.getY(), radius, radius, 0, 360);
+    }
+
+    @Override
+    public int getType() {
+        return type;
     }
 }

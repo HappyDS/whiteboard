@@ -4,6 +4,8 @@ import shape.ShapeType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 @SuppressWarnings("ALL")
@@ -53,8 +55,11 @@ public class ServerFrame extends JFrame {
                 paintBoard.setEraseSize(eraserSizeData[eraserSizeBox.getSelectedIndex()]);
             }
         });
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> paintBoard.clearShapes());
         eraserOptionPanel.add(new JLabel("Eraser size: "));
         eraserOptionPanel.add(eraserSizeBox);
+        eraserOptionPanel.add(clearButton);
 
         Integer[] shapeSizeData = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         JComboBox<Integer> shapeSizeBox = new JComboBox<>(shapeSizeData);

@@ -3,6 +3,7 @@ package ui;
 import shape.Point;
 import shape.Rectangle;
 import shape.*;
+import util.MsgJsonFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -141,7 +142,6 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
                 break;
         }
         return shape;
-
     }
 
     @Override
@@ -149,7 +149,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         if (e.getClickCount() == 2 && currentShape == ShapeType.TEXT) {
             String input = JOptionPane.showInputDialog(null, "Input text");
             Text text = new Text(new Point(e.getX(), e.getY()), input, textSize, currentColor);
-            shapeStack.push(text);
+            addShape(text);
             repaint();
         }
     }
@@ -194,6 +194,8 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
      */
     public synchronized void addShape(IShape shape) {
         shapeStack.push(shape);
+        /* Print all shape as JSON */
+        System.out.println(MsgJsonFactory.toJson(shape));
     }
 
     /**
@@ -230,6 +232,16 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
      */
     public void setTextSize(int textSize) {
         this.textSize = textSize;
+    }
+
+    /**
+     *  clear the canvas
+     */
+    public void clearShapes() {
+        while (!shapeStack.empty()) {
+            shapeStack.pop();
+        }
+        repaint();
     }
 
     @Override
