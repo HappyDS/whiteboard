@@ -87,7 +87,11 @@ public class AdminMainFrame extends BaseMainFrame {
         FileFilter filter = new FileFilter() {
             @Override
             public boolean accept(File f) {
-                return f.getName().endsWith(".wb");
+                if (f.isDirectory()) {
+                    return true;
+                } else {
+                    return f.getName().endsWith(".wb");
+                }
             }
 
             @Override
@@ -103,7 +107,7 @@ public class AdminMainFrame extends BaseMainFrame {
         if (file != null) {
             List<String> info = FileUtil.read(file.getAbsolutePath());
             List<IShape> shapes = new ArrayList<>();
-            for (String s: info) {
+            for (String s : info) {
                 if (!StringUtil.isEmpty(s)) {
                     try {
                         IShape shape = (IShape) MsgJsonFactory.fromJson(s);
