@@ -1,7 +1,8 @@
 package demo;
 
-import ui.ServerFrame;
-import ui.ServerMainFrame;
+import ui.AdminMainFrame;
+import ui.BaseMainFrame;
+import ui.UserMainFrame;
 
 /**
  * @author Yangzhe Xie
@@ -9,7 +10,7 @@ import ui.ServerMainFrame;
  */
 public class Main {
     public static void main(String[] args) {
-        ServerMainFrame frame = new ServerMainFrame();
+        BaseMainFrame frame = new AdminMainFrame();
         frame.setResizable(false);
 
         frame.setVisible(true);

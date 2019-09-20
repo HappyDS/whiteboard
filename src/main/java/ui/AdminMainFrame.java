@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-public class ServerMainFrame extends BaseMainFrame {
+public class AdminMainFrame extends BaseMainFrame {
 
     @Override
     public void initMenuBar() {

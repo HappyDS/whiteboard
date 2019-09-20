@@ -140,5 +140,13 @@ public abstract class BaseMainFrame extends JFrame {
         });
     }
 
+    public void addShape(IShape shape) {
+        paintBoard.addShape(shape);
+    }
+
+    public void initShapes(List<IShape> shapes) {
+        paintBoard.addShapesWithRepaint(shapes);
+    }
+
     public abstract void initMenuBar();
 }
