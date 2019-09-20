@@ -4,7 +4,8 @@
     "resources": ""
   },
   "Database": {
-    "SQL_FILE_FILENAME": "server.sqlite3"
+    "SERVER_FILE_FILENAME": "server.sqlite3",
+    "CLIENT_FILE_FILENAME": "client.sqlite3"
   },
   "Session": {
     "length":23,

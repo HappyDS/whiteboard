@@ -5,30 +5,44 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.*;
-import java.util.Random;
+
 import java.util.concurrent.locks.*;
 
-import com.google.gson.Gson;
 import config.Config;
 import data.types;
 import server.Session;
 
-import java.util.Date;
 
 public class Database {
     //connect immediately when new Database
-    private Connection conn = connect();
+    private Connection conn;
     private final static Logger logger = Logger.getLogger("Database");
     private final static Config config = new Config();
+    private ReadWriteLock lock = new ReentrantReadWriteLock();
+    Lock readLock = lock.readLock();
+    Lock writeLock = lock.writeLock();
+    private ReadWriteLock write = new ReentrantReadWriteLock();
 
-    private Lock sqlFileLock;
+    Database(DBType DBType) {
+        this.conn = connect(DBType);
+    }
 
-
-    private Connection connect() {
-        logger.setLevel(Level.SEVERE);
+    private Connection connect(DBType DBType) {
+        logger.setLevel(Level.INFO);
         Connection conn = null;
         try {
-            String url = String.format("jdbc:sqlite:%s", config.databasePath);
+            String url;
+            switch (DBType) {
+                case CLIENT:
+                    url = String.format("jdbc:sqlite:%s", config.databaseClientPath);
+                    break;
+                case SERVER:
+                    url = String.format("jdbc:sqlite:%s", config.databaseServerPath);
+                    break;
+                default:
+                    throw new SQLException();
+
+            }
             conn = DriverManager.getConnection(url);
             logger.info("Connection to SQLite has been established.");
         } catch (SQLException e) {
@@ -57,7 +71,9 @@ public class Database {
         try {
             PreparedStatement pStmt = this.conn.prepareStatement(sql);
             pStmt.setString(1, username);
+            this.readLock.lock();
             res = pStmt.executeQuery();
+            this.readLock.unlock();
             while (res.next()) {
                 types.User user = new types.User();
                 user.uid = res.getInt("uid");
@@ -87,9 +103,11 @@ public class Database {
             pStmt.setLong(2, session.timestamp);
             pStmt.setString(3, username);
 
-            this.sqlFileLock.lock();
+            this.writeLock.lock();
+
             pStmt.executeUpdate();
-            this.sqlFileLock.unlock();
+            this.writeLock.unlock();
+
 
         } catch (SQLException e) {
             logger.warning(String.format("[*] updateSession failed: %s", e.getMessage()));
@@ -125,11 +143,12 @@ public class Database {
 
 
     public static void main(String[] args) {
-        Database db = new Database();
+
+//        Database db = new Database(DBType.CLIENT);
 //        db.getUser("admin");
 //        db.updateSession("admin");
-        db.getMessages(2);
-        System.out.println();
+//        db.getMessages(2);
+//        System.out.println();
 
     }
 }
