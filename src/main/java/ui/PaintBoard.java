@@ -202,8 +202,13 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     public synchronized void addShapeWithRepaint(IShape shape) {
         shapeStack.push(shape);
         repaint();
-        /* Print all shape as JSON */
-        System.out.println(MsgJsonFactory.toJson(shape));
+    }
+
+    public synchronized void addShapesWithRepaint(List<IShape> shapes) {
+        for (IShape shape: shapes) {
+            shapeStack.push(shape);
+        }
+        repaint();
     }
 
     /**
