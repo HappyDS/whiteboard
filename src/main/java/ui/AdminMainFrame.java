@@ -1,7 +1,6 @@
 package ui;
 
 import shape.IShape;
-import shape.ShapeType;
 import util.FileUtil;
 import util.MsgJsonFactory;
 import util.StringUtil;
@@ -9,8 +8,6 @@ import util.StringUtil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,36 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class AdminMainFrame extends BaseMainFrame {
 
+    private final FileFilter loadSaveFilter = new FileFilter() {
+        @Override
+        public boolean accept(File f) {
+            if (f.isDirectory()) {
+                return true;
+            } else {
+                return f.getName().endsWith(".wb");
+            }
+        }
+
+        @Override
+        public String getDescription() {
+            return ".wb (whiteboard)";
+        }
+    };
+    private final FileFilter exportFilter = new FileFilter() {
+        @Override
+        public boolean accept(File f) {
+            if (f.isDirectory()) {
+                return true;
+            } else {
+                return f.getName().endsWith(".png");
+            }
+        }
+
+        @Override
+        public String getDescription() {
+            return ".png";
+        }
+    };
     @Override
     public void initMenuBar() {
         /* Initialize menu bar */
@@ -48,10 +75,15 @@ public class AdminMainFrame extends BaseMainFrame {
         editMenu.add(clearMenuItem);
         editMenu.add(redoMenuItem);
         setJMenuBar(menuBar);
+
+
+
+
     }
 
     private void saveData() {
         JFileChooser saveFileChooser = new JFileChooser();
+        saveFileChooser.setFileFilter(this.loadSaveFilter);
         saveFileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
         saveFileChooser.setDialogTitle("Select path to save");
         saveFileChooser.showDialog(this, "OK");
@@ -68,6 +100,7 @@ public class AdminMainFrame extends BaseMainFrame {
 
     private void savePNG() {
         JFileChooser saveFileChooser = new JFileChooser();
+        saveFileChooser.setFileFilter(exportFilter);
         saveFileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
         saveFileChooser.setDialogTitle("Select path to save");
         saveFileChooser.showDialog(this, "OK");
@@ -84,23 +117,8 @@ public class AdminMainFrame extends BaseMainFrame {
 
     private void loadData() {
         JFileChooser loadFileChooser = new JFileChooser();
-        FileFilter filter = new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                } else {
-                    return f.getName().endsWith(".wb");
-                }
-            }
-
-            @Override
-            public String getDescription() {
-                return ".wb (whiteboard)";
-            }
-        };
-        loadFileChooser.addChoosableFileFilter(filter);
-        loadFileChooser.setFileFilter(filter);
+        loadFileChooser.addChoosableFileFilter(this.loadSaveFilter);
+        loadFileChooser.setFileFilter(this.loadSaveFilter);
         loadFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         loadFileChooser.showOpenDialog(null);
         File file = loadFileChooser.getSelectedFile();
