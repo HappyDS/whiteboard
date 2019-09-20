@@ -1,6 +1,6 @@
 package database;
 
-public enum DatabaseType {
+public enum DBType {
     CLIENT, SERVER
 }
 
