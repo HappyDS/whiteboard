@@ -8,6 +8,7 @@ public class Request {
     int useId;
     String hashedPassword;
     long localTimestamp;
+    long serverTimestamp;
 }
 
 
