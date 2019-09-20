@@ -76,9 +76,6 @@ public class AdminMainFrame extends BaseMainFrame {
         editMenu.add(redoMenuItem);
         setJMenuBar(menuBar);
 
-
-
-
     }
 
     private void saveData() {
