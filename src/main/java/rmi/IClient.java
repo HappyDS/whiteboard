@@ -1,7 +1,7 @@
 package rmi;
 
-import shape.IShape;
 import data.ChatMessage;
+import shape.IShape;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

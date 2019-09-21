@@ -5,7 +5,6 @@ import shape.IShape;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  * @author Yangzhe Xie

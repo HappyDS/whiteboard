@@ -1,8 +1,8 @@
 package rmi;
 
 import data.AllData;
-import shape.IShape;
 import data.ChatMessage;
+import shape.IShape;
 import util.DateUtil;
 import util.NumberUtil;
 import util.StringUtil;
@@ -49,7 +49,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     public void sendMessage(String message, String username) {
         ChatMessage chatMessage = new ChatMessage(username, message, DateUtil.getFormattedDate());
         messageList.add(chatMessage);
-        for (IClient client: clientList) {
+        for (IClient client : clientList) {
             try {
                 System.out.println(client.getName());
                 System.out.println(username);

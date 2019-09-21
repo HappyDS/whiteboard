@@ -6,7 +6,6 @@ import rmi.IServer;
 import rmi.ServerImpl;
 import ui.AdminMainFrame;
 import ui.BaseMainFrame;
-import ui.UserMainFrame;
 
 import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
@@ -39,7 +38,6 @@ public class AdminMain {
         try {
             BaseMainFrame mainFrame = new AdminMainFrame("Demo2");
             mainFrame.setResizable(false);
-            mainFrame.setVisible(true);
 
             ServerSocket s = new ServerSocket(0);
             int localPort = s.getLocalPort();
@@ -57,6 +55,8 @@ public class AdminMain {
             server.addUser(new String[]{"Demo2", "127.0.0.1", String.valueOf(localPort), "Client"});
             mainFrame.setServer(server);
             System.out.println("UserReady " + new Date().getTime());
+
+            mainFrame.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

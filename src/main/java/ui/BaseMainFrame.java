@@ -1,9 +1,9 @@
 package ui;
 
+import data.ChatMessage;
 import rmi.IServer;
 import shape.IShape;
 import shape.ShapeType;
-import data.ChatMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -164,7 +164,7 @@ public abstract class BaseMainFrame extends JFrame {
     }
 
     public synchronized void initMessages(List<ChatMessage> messageList) {
-        for (ChatMessage message: messageList) {
+        for (ChatMessage message : messageList) {
             addMessage(message);
         }
     }

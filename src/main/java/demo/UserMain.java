@@ -4,7 +4,6 @@ import data.AllData;
 import rmi.ClientImpl;
 import rmi.IClient;
 import rmi.IServer;
-import shape.IShape;
 import ui.BaseMainFrame;
 import ui.UserMainFrame;
 
@@ -12,7 +11,6 @@ import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Yangzhe Xie
@@ -23,7 +21,6 @@ public class UserMain {
         try {
             BaseMainFrame mainFrame = new UserMainFrame("Demo1");
             mainFrame.setResizable(false);
-            mainFrame.setVisible(true);
 
             ServerSocket s = new ServerSocket(0);
             int localPort = s.getLocalPort();
@@ -41,6 +38,8 @@ public class UserMain {
             mainFrame.initShapes(allData.getShapeList());
             mainFrame.initMessages(allData.getMessageList());
             System.out.println("UserReady " + new Date().getTime());
+
+            mainFrame.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

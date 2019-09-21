@@ -1,8 +1,8 @@
 package rmi;
 
+import data.ChatMessage;
 import shape.IShape;
 import ui.BaseMainFrame;
-import data.ChatMessage;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
