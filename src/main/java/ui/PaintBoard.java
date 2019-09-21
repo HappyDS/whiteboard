@@ -29,6 +29,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private Color currentColor;
     private ShapeType currentShape;
 
+    //TODO: Not thread safe
     private List<Point> freeDraw = new ArrayList<>();   /* A series of points on a free draw path */
     private List<Point> eraserPath = new ArrayList<>();
 

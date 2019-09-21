@@ -36,6 +36,7 @@ public class AdminMain {
 
     private static void startClient() {
         try {
+//            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
             BaseMainFrame mainFrame = new AdminMainFrame("Demo2");
             mainFrame.setResizable(false);
 
@@ -49,7 +50,6 @@ public class AdminMain {
             IClient client = new ClientImpl(mainFrame);
             clientRegistry.bind("Client", client);
 
-//            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
             Registry serverRegistry = LocateRegistry.getRegistry("127.0.0.1", 9999);
             IServer server = (IServer) serverRegistry.lookup("Server");
             server.addUser(new String[]{"Demo2", "127.0.0.1", String.valueOf(localPort), "Client"});
