@@ -1,22 +1,36 @@
 package rmi;
 
 import shape.IShape;
-import ui.UserMainFrame;
+import ui.BaseMainFrame;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  * @author Yangzhe Xie
  * @date 20/9/19
  */
-public class ClientImpl implements IClient {
+public class ClientImpl extends UnicastRemoteObject implements IClient {
 
-    private UserMainFrame userMainFrame;
+    private BaseMainFrame userMainFrame;
+    private String name;
 
-    public ClientImpl(UserMainFrame userMainFrame) {
+    public ClientImpl(BaseMainFrame userMainFrame) throws RemoteException {
         this.userMainFrame = userMainFrame;
     }
 
     @Override
     public void shapeFromServer(IShape shape) {
         userMainFrame.addShape(shape);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }

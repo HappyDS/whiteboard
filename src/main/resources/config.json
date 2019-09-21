@@ -8,7 +8,7 @@
     "CLIENT_FILE_FILENAME": "client.sqlite3"
   },
   "Session": {
-    "length":23,
+    "length": 23,
     "dict": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   }
 }

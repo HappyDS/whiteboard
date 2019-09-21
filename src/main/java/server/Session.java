@@ -1,22 +1,18 @@
 package server;
 
-import java.security.SecureRandom;
-
 import config.Config;
 
+import java.security.SecureRandom;
 import java.util.Date;
-import java.sql.Timestamp;
 
 /*
  * @https://www.mkyong.com/java/java-how-to-generate-a-random-string/
  * */
 public class Session {
-    public String session;
-    public long  timestamp;
-    private Config config=new Config();
-
-
     private static SecureRandom random = new SecureRandom();
+    public String session;
+    public long timestamp;
+    private Config config = new Config();
 
     public Session() {
         this.session = generateRandomString();

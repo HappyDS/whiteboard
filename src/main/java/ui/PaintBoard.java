@@ -1,5 +1,6 @@
 package ui;
 
+import rmi.IServer;
 import shape.Point;
 import shape.Rectangle;
 import shape.*;
@@ -11,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -35,12 +37,20 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private int penSize = 1;
     private int textSize = 14;
 
-    public PaintBoard() {
+    private IServer server;
+    private String username = "default";
+
+    public PaintBoard(String username) {
+        this.username = username;
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         currentColor = Color.BLACK;
         shapeStack = new Stack<IShape>();
         currentShape = ShapeType.LINE;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -197,6 +207,11 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         shapeStack.push(shape);
         /* Print all shape as JSON */
         System.out.println(MsgJsonFactory.toJson(shape));
+        try {
+            server.sendShape(shape, username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public synchronized void addShapeWithRepaint(IShape shape) {
@@ -205,7 +220,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     public synchronized void addShapesWithRepaint(List<IShape> shapes) {
-        for (IShape shape: shapes) {
+        for (IShape shape : shapes) {
             shapeStack.push(shape);
         }
         repaint();
@@ -267,7 +282,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     public String exportData() {
         StringBuilder sb = new StringBuilder();
-        for (IShape shape: shapeStack) {
+        for (IShape shape : shapeStack) {
             sb.append(MsgJsonFactory.toJson(shape))
                     .append("\n");
         }
@@ -316,5 +331,9 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
      */
     public void setCurrentColor(Color color) {
         this.currentColor = color;
+    }
+
+    public void setServer(IServer server) {
+        this.server = server;
     }
 }

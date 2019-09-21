@@ -1,6 +1,5 @@
 package ui;
 
-import rmi.ServerImpl;
 import shape.IShape;
 import util.FileUtil;
 import util.MsgJsonFactory;
@@ -46,6 +45,11 @@ public class AdminMainFrame extends BaseMainFrame {
             return ".png";
         }
     };
+
+    public AdminMainFrame(String username) {
+        super(username);
+    }
+
     @Override
     public void initMenuBar() {
         /* Initialize menu bar */

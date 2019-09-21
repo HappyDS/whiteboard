@@ -3,21 +3,21 @@ package config;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.*;
+import java.util.logging.Logger;
 
 public class Config {
+    private final static Logger logger = Logger.getLogger("config");
     public String resourcesDir;
     public String config;
     public String databaseServerPath;
     public String databaseClientPath;
     public int sessionLength;
     public String sessionDict;
-    private final static Logger logger = Logger.getLogger("config");
 
 
     public Config() {
@@ -34,8 +34,8 @@ public class Config {
             this.databaseServerPath = Paths.get(this.resourcesDir, dbFilename).toString();
             dbFilename = configJson.get("Database").getAsJsonObject().get("CLIENT_FILE_FILENAME").getAsString();
             this.databaseClientPath = Paths.get(this.resourcesDir, dbFilename).toString();
-            this.sessionLength=configJson.get("Session").getAsJsonObject().get("length").getAsInt();
-            this.sessionDict=configJson.get("Session").getAsJsonObject().get("dict").getAsString();
+            this.sessionLength = configJson.get("Session").getAsJsonObject().get("length").getAsInt();
+            this.sessionDict = configJson.get("Session").getAsJsonObject().get("dict").getAsString();
 
 
         } catch (FileNotFoundException e) {

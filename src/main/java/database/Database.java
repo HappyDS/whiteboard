@@ -1,23 +1,25 @@
 package database;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.*;
-
-import java.util.concurrent.locks.*;
-
 import config.Config;
 import data.types;
 import server.Session;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Database {
-    //connect immediately when new Database
-    private Connection conn;
     private final static Logger logger = Logger.getLogger("Database");
     private final static Config config = new Config();
+    //connect immediately when new Database
+    private Connection conn;
     private ReadWriteLock lock = new ReentrantReadWriteLock();
     Lock readLock = lock.readLock();
     Lock writeLock = lock.writeLock();
@@ -25,6 +27,16 @@ public class Database {
 
     Database(DBType DBType) {
         this.conn = connect(DBType);
+    }
+
+    public static void main(String[] args) {
+
+//        Database db = new Database(DBType.CLIENT);
+//        db.getUser("admin");
+//        db.updateSession("admin");
+//        db.getMessages(2);
+//        System.out.println();
+
     }
 
     private Connection connect(DBType DBType) {
@@ -91,7 +103,6 @@ public class Database {
 
     }
 
-
     public void updateSession(String username) {
         String sql = "UPDATE user SET session=?,timestamp=? WHERE username=?;";
         try {
@@ -139,16 +150,5 @@ public class Database {
             logger.warning(String.format("[*] getMessages failed: %s", e.getMessage()));
         }
         return msgList;
-    }
-
-
-    public static void main(String[] args) {
-
-//        Database db = new Database(DBType.CLIENT);
-//        db.getUser("admin");
-//        db.updateSession("admin");
-//        db.getMessages(2);
-//        System.out.println();
-
     }
 }

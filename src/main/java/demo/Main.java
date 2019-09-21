@@ -2,7 +2,6 @@ package demo;
 
 import ui.AdminMainFrame;
 import ui.BaseMainFrame;
-import ui.UserMainFrame;
 
 /**
  * @author Yangzhe Xie
@@ -10,7 +9,7 @@ import ui.UserMainFrame;
  */
 public class Main {
     public static void main(String[] args) {
-        BaseMainFrame frame = new AdminMainFrame();
+        BaseMainFrame frame = new AdminMainFrame("Admin");
         frame.setResizable(false);
 
         frame.setVisible(true);

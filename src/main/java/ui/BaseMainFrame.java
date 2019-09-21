@@ -1,17 +1,12 @@
 package ui;
 
+import rmi.IServer;
 import shape.IShape;
 import shape.ShapeType;
-import util.FileUtil;
-import util.MsgJsonFactory;
-import util.StringUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.ItemEvent;
-import java.io.File;
 import java.util.List;
 
 @SuppressWarnings("ALL")
@@ -23,9 +18,12 @@ public abstract class BaseMainFrame extends JFrame {
     protected JPanel eraserOptionPanel = new JPanel();
     protected JPanel textOpentionPanel = new JPanel();
     protected ChatBoard chatBoard = new ChatBoard();
-    protected PaintBoard paintBoard = new PaintBoard();
+    protected PaintBoard paintBoard;
 
-    public BaseMainFrame() {
+    protected IServer server;
+
+    public BaseMainFrame(String username) {
+        paintBoard = new PaintBoard(username);
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -34,7 +32,10 @@ public abstract class BaseMainFrame extends JFrame {
 
         initMenuBar();
         initComponents();
+    }
 
+    public void setServer(IServer server) {
+        paintBoard.setServer(server);
     }
 
     private void initComponents() {
