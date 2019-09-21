@@ -4,9 +4,11 @@ import rmi.ClientImpl;
 import rmi.IClient;
 import rmi.IServer;
 import rmi.ServerImpl;
+import ui.AdminMainFrame;
 import ui.BaseMainFrame;
 import ui.UserMainFrame;
 
+import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Date;
@@ -35,19 +37,24 @@ public class AdminMain {
 
     private static void startClient() {
         try {
-            BaseMainFrame mainFrame = new UserMainFrame("Demo2");
+            BaseMainFrame mainFrame = new AdminMainFrame("Demo2");
             mainFrame.setResizable(false);
             mainFrame.setVisible(true);
 
-            LocateRegistry.createRegistry(7777);
-            Registry clientRegistry = LocateRegistry.getRegistry("127.0.0.1", 7777);
+            ServerSocket s = new ServerSocket(0);
+            int localPort = s.getLocalPort();
+            s.close();
+
+            LocateRegistry.createRegistry(localPort);
+            Registry clientRegistry = LocateRegistry.getRegistry("127.0.0.1", localPort);
+
             IClient client = new ClientImpl(mainFrame);
             clientRegistry.bind("Client", client);
 
 //            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
             Registry serverRegistry = LocateRegistry.getRegistry("127.0.0.1", 9999);
             IServer server = (IServer) serverRegistry.lookup("Server");
-            server.addUser(new String[]{"Demo2", "127.0.0.1", "7777", "Client"});
+            server.addUser(new String[]{"Demo2", "127.0.0.1", String.valueOf(localPort), "Client"});
             mainFrame.setServer(server);
             System.out.println("UserReady " + new Date().getTime());
         } catch (Exception e) {

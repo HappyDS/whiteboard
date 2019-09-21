@@ -1,5 +1,6 @@
 package demo;
 
+import data.AllData;
 import rmi.ClientImpl;
 import rmi.IClient;
 import rmi.IServer;
@@ -7,6 +8,7 @@ import shape.IShape;
 import ui.BaseMainFrame;
 import ui.UserMainFrame;
 
+import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Date;
@@ -23,17 +25,21 @@ public class UserMain {
             mainFrame.setResizable(false);
             mainFrame.setVisible(true);
 
-            LocateRegistry.createRegistry(8888);
-            Registry clientRegistry = LocateRegistry.getRegistry("127.0.0.1", 8888);
+            ServerSocket s = new ServerSocket(0);
+            int localPort = s.getLocalPort();
+            s.close();
+
+            LocateRegistry.createRegistry(localPort);
+            Registry clientRegistry = LocateRegistry.getRegistry("127.0.0.1", localPort);
             IClient client = new ClientImpl(mainFrame);
             clientRegistry.bind("Client", client);
 
-//            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
             Registry serverRegistry = LocateRegistry.getRegistry("127.0.0.1", 9999);
             IServer server = (IServer) serverRegistry.lookup("Server");
-            List<IShape> shapeList = server.addUser(new String[]{"Demo", "127.0.0.1", "8888", "Client"});
+            AllData allData = server.addUser(new String[]{"Demo1", "127.0.0.1", String.valueOf(localPort), "Client"});
             mainFrame.setServer(server);
-            mainFrame.initShapes(shapeList);
+            mainFrame.initShapes(allData.getShapeList());
+            mainFrame.initMessages(allData.getMessageList());
             System.out.println("UserReady " + new Date().getTime());
         } catch (Exception e) {
             e.printStackTrace();

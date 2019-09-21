@@ -3,6 +3,7 @@ package ui;
 import rmi.IServer;
 import shape.IShape;
 import shape.ShapeType;
+import data.ChatMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,13 +18,14 @@ public abstract class BaseMainFrame extends JFrame {
     protected JPanel shapeOptionPanel = new JPanel();
     protected JPanel eraserOptionPanel = new JPanel();
     protected JPanel textOpentionPanel = new JPanel();
-    protected ChatBoard chatBoard = new ChatBoard();
+    protected ChatBoard chatBoard;
     protected PaintBoard paintBoard;
 
     protected IServer server;
 
     public BaseMainFrame(String username) {
         paintBoard = new PaintBoard(username);
+        chatBoard = new ChatBoard(username);
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -36,6 +38,7 @@ public abstract class BaseMainFrame extends JFrame {
 
     public void setServer(IServer server) {
         paintBoard.setServer(server);
+        chatBoard.setServer(server);
     }
 
     private void initComponents() {
@@ -141,12 +144,29 @@ public abstract class BaseMainFrame extends JFrame {
         });
     }
 
-    public void addShape(IShape shape) {
+    public synchronized void addShape(IShape shape) {
         paintBoard.addShapeWithRepaint(shape);
     }
 
-    public void initShapes(List<IShape> shapes) {
+    public synchronized void initShapes(List<IShape> shapes) {
         paintBoard.addShapesWithRepaint(shapes);
+    }
+
+    public synchronized void addMessage(ChatMessage message) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(message.getUsername())
+                .append("\n")
+                .append(message.getTime())
+                .append("\n")
+                .append(message.getBody());
+        chatBoard.appendMessage(sb.toString());
+        chatBoard.appendMessage("\n");
+    }
+
+    public synchronized void initMessages(List<ChatMessage> messageList) {
+        for (ChatMessage message: messageList) {
+            addMessage(message);
+        }
     }
 
     public abstract void initMenuBar();

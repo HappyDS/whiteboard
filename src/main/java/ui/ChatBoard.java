@@ -1,10 +1,12 @@
 package ui;
 
+import rmi.IServer;
 import util.DateUtil;
 import util.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.rmi.RemoteException;
 
 /**
  * @author Yangzhe Xie
@@ -17,8 +19,12 @@ public class ChatBoard extends JPanel {
     private JTextField inputBox;
     private JPanel optionPanel;
     private JButton sendButton;
+    private String username;
+    private IServer server;
 
-    public ChatBoard() {
+    public ChatBoard(String username) {
+
+        this.username = username;
         setLayout(new BorderLayout(5, 5));
 
         msgBox = new JTextArea();
@@ -43,12 +49,19 @@ public class ChatBoard extends JPanel {
             String text = inputBox.getText();
             if (!StringUtil.isEmpty(text)) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(DateUtil.getFormattedDate())
+                sb.append(username)
+                        .append("\n")
+                        .append(DateUtil.getFormattedDate())
                         .append("\n")
                         .append(text)
                         .append("\n");
                 msgBox.append(sb.toString());
                 msgBox.append("\n");
+                try {
+                    server.sendMessage(text, username);
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
@@ -61,5 +74,9 @@ public class ChatBoard extends JPanel {
     public synchronized void appendMessage(String msg) {
         msgBox.append(msg);
         msgBox.append("\n");
+    }
+
+    public void setServer(IServer server) {
+        this.server = server;
     }
 }

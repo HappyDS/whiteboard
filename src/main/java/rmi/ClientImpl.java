@@ -2,6 +2,7 @@ package rmi;
 
 import shape.IShape;
 import ui.BaseMainFrame;
+import data.ChatMessage;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -22,6 +23,11 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
     @Override
     public void shapeFromServer(IShape shape) {
         userMainFrame.addShape(shape);
+    }
+
+    @Override
+    public void messageFromServer(ChatMessage message) throws RemoteException {
+        userMainFrame.addMessage(message);
     }
 
     @Override

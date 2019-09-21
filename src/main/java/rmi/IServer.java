@@ -1,5 +1,6 @@
 package rmi;
 
+import data.AllData;
 import shape.IShape;
 
 import java.rmi.Remote;
@@ -13,5 +14,7 @@ import java.util.List;
 public interface IServer extends Remote {
     void sendShape(IShape shape, String username) throws RemoteException;
 
-    List<IShape> addUser(String[] info) throws RemoteException;
+    void sendMessage(String message, String username) throws RemoteException;
+
+    AllData addUser(String[] info) throws RemoteException;
 }

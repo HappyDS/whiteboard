@@ -1,8 +1,9 @@
 package rmi;
 
-import com.google.gson.Gson;
+import data.AllData;
 import shape.IShape;
-import ui.BaseMainFrame;
+import data.ChatMessage;
+import util.DateUtil;
 import util.NumberUtil;
 import util.StringUtil;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class ServerImpl extends UnicastRemoteObject implements IServer {
     private List<IClient> clientList = new ArrayList<>();
     private List<IShape> shapeList = new ArrayList<>();
+    private List<ChatMessage> messageList = new ArrayList<>();
 
     public ServerImpl() throws RemoteException {
 
@@ -27,8 +29,6 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
 
     @Override
     public void sendShape(IShape shape, String username) {
-//        baseMainFrame.addShape(shape);
-        System.out.println(new Gson().toJson(shape));
         shapeList.add(shape);
         for (IClient client : clientList) {
             try {
@@ -46,7 +46,29 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     }
 
     @Override
-    public List<IShape> addUser(String[] info) {
+    public void sendMessage(String message, String username) {
+        ChatMessage chatMessage = new ChatMessage(username, message, DateUtil.getFormattedDate());
+        messageList.add(chatMessage);
+        for (IClient client: clientList) {
+            try {
+                System.out.println(client.getName());
+                System.out.println(username);
+                if (!StringUtil.equals(client.getName(), username)) {
+                    try {
+                        client.messageFromServer(chatMessage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public AllData addUser(String[] info) {
+        AllData allData = new AllData();
         try {
             for (String s : info) {
                 System.out.println(s);
@@ -61,9 +83,11 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             client.setName(username);
             clientList.add(client);
 
+            allData.setShapeList(shapeList);
+            allData.setMessageList(messageList);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return shapeList;
+        return allData;
     }
 }
