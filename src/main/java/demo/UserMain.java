@@ -37,6 +37,7 @@ public class UserMain {
             mainFrame.setServer(server);
             mainFrame.initShapes(allData.getShapeList());
             mainFrame.initMessages(allData.getMessageList());
+            mainFrame.setUserList(allData.getUserList());
             System.out.println("UserReady " + new Date().getTime());
 
             mainFrame.setVisible(true);

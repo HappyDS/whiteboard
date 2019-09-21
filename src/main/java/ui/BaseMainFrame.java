@@ -20,17 +20,19 @@ public abstract class BaseMainFrame extends JFrame {
     protected JPanel textOpentionPanel = new JPanel();
     protected ChatBoard chatBoard;
     protected PaintBoard paintBoard;
+    protected UserListBoard userListBoard;
 
     protected IServer server;
 
     public BaseMainFrame(String username) {
         paintBoard = new PaintBoard(username);
         chatBoard = new ChatBoard(username);
+        userListBoard = new UserListBoard(username);
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
         initMenuBar();
         initComponents();
@@ -39,12 +41,15 @@ public abstract class BaseMainFrame extends JFrame {
     public void setServer(IServer server) {
         paintBoard.setServer(server);
         chatBoard.setServer(server);
+        userListBoard.setServer(server);
     }
 
     private void initComponents() {
         chatBoard.setPreferredSize(new Dimension(300, 800));
+        userListBoard.setPreferredSize(new Dimension(200, 800));
         add(boardPanel, BorderLayout.CENTER);
         add(chatBoard, BorderLayout.EAST);
+        add(userListBoard, BorderLayout.WEST);
         boardPanel.setLayout(new BorderLayout());
 //        PaintBoard paintBoard = new PaintBoard();
         String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"};
@@ -167,6 +172,10 @@ public abstract class BaseMainFrame extends JFrame {
         for (ChatMessage message : messageList) {
             addMessage(message);
         }
+    }
+
+    public synchronized void setUserList(List<String> userList) {
+        userListBoard.setUserList(userList);
     }
 
     public abstract void initMenuBar();

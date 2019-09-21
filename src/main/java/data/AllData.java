@@ -1,5 +1,6 @@
 package data;
 
+import com.sun.org.apache.bcel.internal.generic.LUSHR;
 import shape.IShape;
 
 import java.io.Serializable;
@@ -12,11 +13,21 @@ import java.util.List;
 public class AllData implements Serializable {
     private List<IShape> shapeList;
     private List<ChatMessage> messageList;
+    private List<String> userList;
 
 //    public AllData(List<IShape> shapeList, List<ChatMessage> messageList) {
 //        this.shapeList = shapeList;
 //        this.messageList = messageList;
 //    }
+
+
+    public List<String> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<String> userList) {
+        this.userList = userList;
+    }
 
     public List<IShape> getShapeList() {
         return shapeList;

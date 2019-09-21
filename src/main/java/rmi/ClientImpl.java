@@ -6,6 +6,7 @@ import ui.BaseMainFrame;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 /**
  * @author Yangzhe Xie
@@ -28,6 +29,11 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
     @Override
     public void messageFromServer(ChatMessage message) throws RemoteException {
         userMainFrame.addMessage(message);
+    }
+
+    @Override
+    public void userListFromServer(List<String> userList) throws RemoteException {
+        userMainFrame.setUserList(userList);
     }
 
     @Override

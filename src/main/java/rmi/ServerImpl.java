@@ -22,6 +22,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     private List<IClient> clientList = new ArrayList<>();
     private List<IShape> shapeList = new ArrayList<>();
     private List<ChatMessage> messageList = new ArrayList<>();
+    private List<String> userList = new ArrayList<>();
 
     public ServerImpl() throws RemoteException {
 
@@ -82,9 +83,15 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             IClient client = (IClient) clientRegistry.lookup(serviceName);
             client.setName(username);
             clientList.add(client);
+            userList.add(username);
 
             allData.setShapeList(shapeList);
             allData.setMessageList(messageList);
+            allData.setUserList(userList);
+
+            for (IClient c : clientList) {
+                c.userListFromServer(userList);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
