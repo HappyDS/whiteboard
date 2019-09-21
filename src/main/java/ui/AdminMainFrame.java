@@ -1,5 +1,6 @@
 package ui;
 
+import rmi.ServerImpl;
 import shape.IShape;
 import util.FileUtil;
 import util.MsgJsonFactory;

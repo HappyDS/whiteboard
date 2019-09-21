@@ -1,10 +1,12 @@
 package shape;
 
+import java.io.Serializable;
+
 /**
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class Point {
+public class Point implements Serializable {
     private int x;
     private int y;
 

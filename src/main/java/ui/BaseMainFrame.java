@@ -141,7 +141,7 @@ public abstract class BaseMainFrame extends JFrame {
     }
 
     public void addShape(IShape shape) {
-        paintBoard.addShape(shape);
+        paintBoard.addShapeWithRepaint(shape);
     }
 
     public void initShapes(List<IShape> shapes) {
