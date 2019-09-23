@@ -10,6 +10,10 @@ import java.util.List;
 public interface IClient extends Remote {
     void shapeFromServer(IShape shape) throws RemoteException;
 
+    void undoFromServer() throws RemoteException;
+
+    void clearFromServer() throws RemoteException;
+
     void messageFromServer(ChatMessage message) throws RemoteException;
 
     void userListFromServer(List<String> userList) throws RemoteException;

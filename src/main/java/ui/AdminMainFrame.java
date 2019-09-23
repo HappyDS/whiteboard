@@ -74,9 +74,9 @@ public class AdminMainFrame extends BaseMainFrame {
         fileMenu.add(exportMenuItem);
 
         JMenuItem clearMenuItem = new JMenuItem("Clear");
-        clearMenuItem.addActionListener(e -> paintBoard.clearShapes());
+        clearMenuItem.addActionListener(e -> clear());
         JMenuItem redoMenuItem = new JMenuItem("Undo");
-        redoMenuItem.addActionListener(e -> paintBoard.undo());
+        redoMenuItem.addActionListener(e -> undo());
         editMenu.add(clearMenuItem);
         editMenu.add(redoMenuItem);
         setJMenuBar(menuBar);

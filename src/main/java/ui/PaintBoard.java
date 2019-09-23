@@ -271,6 +271,23 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
             shapeStack.pop();
         }
         repaint();
+        try {
+            server.clear(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void remoteClear() {
+        while (!shapeStack.empty()) {
+            shapeStack.pop();
+        }
+        repaint();
+    }
+
+    public void remoteUndo() {
+        shapeStack.pop();
+        repaint();
     }
 
     /**
@@ -279,6 +296,11 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     public void undo() {
         shapeStack.pop();
         repaint();
+        try {
+            server.undo(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public String exportData() {

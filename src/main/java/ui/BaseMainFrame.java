@@ -179,4 +179,20 @@ public abstract class BaseMainFrame extends JFrame {
     }
 
     public abstract void initMenuBar();
+
+    public void undo() {
+        paintBoard.undo();
+    }
+
+    public void remoteUndo() {
+        paintBoard.remoteUndo();
+    }
+
+    public void clear() {
+        paintBoard.clearShapes();
+    }
+
+    public void remoteClear() {
+        paintBoard.remoteClear();
+    }
 }

@@ -27,7 +27,17 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
     }
 
     @Override
-    public void messageFromServer(ChatMessage message) throws RemoteException {
+    public void undoFromServer() {
+        userMainFrame.remoteUndo();
+    }
+
+    @Override
+    public void clearFromServer() {
+        userMainFrame.remoteClear();
+    }
+
+    @Override
+    public void messageFromServer(ChatMessage message) {
         userMainFrame.addMessage(message);
     }
 

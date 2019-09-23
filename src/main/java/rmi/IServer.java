@@ -15,5 +15,9 @@ public interface IServer extends Remote {
 
     void sendMessage(String message, String username) throws RemoteException;
 
+    void undo(String username) throws RemoteException;
+
+    void clear(String username) throws RemoteException;
+
     AllData addUser(String[] info) throws RemoteException;
 }

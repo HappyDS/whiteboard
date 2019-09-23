@@ -52,11 +52,43 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
         messageList.add(chatMessage);
         for (IClient client : clientList) {
             try {
-                System.out.println(client.getName());
-                System.out.println(username);
                 if (!StringUtil.equals(client.getName(), username)) {
                     try {
                         client.messageFromServer(chatMessage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void undo(String username) throws RemoteException {
+        for (IClient client : clientList) {
+            try {
+                if (!StringUtil.equals(client.getName(), username)) {
+                    try {
+                        client.undoFromServer();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void clear(String username) {
+        for (IClient client : clientList) {
+            try {
+                if (!StringUtil.equals(client.getName(), username)) {
+                    try {
+                        client.clearFromServer();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
