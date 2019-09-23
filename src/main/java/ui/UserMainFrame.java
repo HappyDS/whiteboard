@@ -13,4 +13,9 @@ public class UserMainFrame extends BaseMainFrame {
     public void initMenuBar() {
         //TODO
     }
+
+    @Override
+    protected void onWindowClosing() {
+        //TODO
+    }
 }

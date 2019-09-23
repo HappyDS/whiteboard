@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-public class AdminMainFrame extends BaseMainFrame {
+        public class AdminMainFrame extends BaseMainFrame {
 
     private final FileFilter loadSaveFilter = new FileFilter() {
         @Override
@@ -83,6 +83,11 @@ public class AdminMainFrame extends BaseMainFrame {
 
     }
 
+    @Override
+    protected void onWindowClosing() {
+        //TODO
+    }
+
     private void saveData() {
         JFileChooser saveFileChooser = new JFileChooser();
         saveFileChooser.setFileFilter(this.loadSaveFilter);
@@ -142,6 +147,5 @@ public class AdminMainFrame extends BaseMainFrame {
             paintBoard.clearShapes();
             paintBoard.addShapesWithRepaint(shapes);
         }
-
     }
 }

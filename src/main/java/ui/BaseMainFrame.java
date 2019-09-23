@@ -8,6 +8,8 @@ import shape.ShapeType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 @SuppressWarnings("ALL")
@@ -36,6 +38,24 @@ public abstract class BaseMainFrame extends JFrame {
 
         initMenuBar();
         initComponents();
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                /* Below is testing code */
+                System.out.println("Closing");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println("Closed");
+
+                /* real codes */
+                onWindowClosing();
+                super.windowClosing(e);
+            }
+        });
     }
 
     public void setServer(IServer server) {
@@ -179,6 +199,8 @@ public abstract class BaseMainFrame extends JFrame {
     }
 
     public abstract void initMenuBar();
+
+    protected abstract void onWindowClosing();
 
     public void undo() {
         paintBoard.undo();
