@@ -37,7 +37,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
                     try {
                         client.shapeFromServer(shape);
                     } catch (RemoteException e) {
-                        e.printStackTrace();
+                        onUserDisconnected(client);
                     }
                 }
             } catch (RemoteException e) {
@@ -56,7 +56,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
                     try {
                         client.messageFromServer(chatMessage);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        onUserDisconnected(client);
                     }
                 }
             } catch (RemoteException e) {
@@ -73,7 +73,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
                     try {
                         client.undoFromServer();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        onUserDisconnected(client);
                     }
                 }
             } catch (RemoteException e) {
@@ -90,7 +90,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
                     try {
                         client.clearFromServer();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        onUserDisconnected(client);
                     }
                 }
             } catch (RemoteException e) {
@@ -128,5 +128,16 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             e.printStackTrace();
         }
         return allData;
+    }
+
+    public void onUserDisconnected(IClient client) {
+        clientList.remove(client);
+        try {
+            System.out.println(client.getName() + " Left the room.");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        //TODO this one haven't been tested.
+        //TODO other clients should be notified of this message
     }
 }

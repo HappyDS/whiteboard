@@ -12,7 +12,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Date;
 
 /**
  * @author Yangzhe Xie
@@ -44,7 +43,7 @@ public class UserMain {
                 mainFrame.initShapes(allData.getShapeList());
                 mainFrame.initMessages(allData.getMessageList());
                 mainFrame.setUserList(allData.getUserList());
-                System.out.println("UserReady " + new Date().getTime());
+                System.out.println("UserReady: " + username);
 
                 mainFrame.setVisible(true);
                 starterFrame.dispose();

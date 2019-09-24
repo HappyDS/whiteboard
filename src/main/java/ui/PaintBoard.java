@@ -29,7 +29,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private Color currentColor;
     private ShapeType currentShape;
 
-    //TODO: Not thread safe
+    //TODO: Might not be thread safe
     private List<Point> freeDraw = new ArrayList<>();   /* A series of points on a free draw path */
     private List<Point> eraserPath = new ArrayList<>();
 
@@ -211,6 +211,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         try {
             server.sendShape(shape, username);
         } catch (RemoteException e) {
+            //TODO: handle the exception. the user is disconnected.
             e.printStackTrace();
         }
     }
@@ -274,6 +275,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         try {
             server.clear(username);
         } catch (RemoteException e) {
+            //TODO: handle the exception. the user is disconnected.
             e.printStackTrace();
         }
     }
@@ -300,6 +302,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
             server.undo(username);
         } catch (RemoteException e) {
             e.printStackTrace();
+            //TODO: handle the exception. the user is disconnected.
         }
     }
 

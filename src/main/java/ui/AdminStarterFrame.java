@@ -4,7 +4,6 @@ import util.NumberUtil;
 import util.StringUtil;
 
 import javax.swing.*;
-import java.net.InetAddress;
 
 /**
  * @author Yangzhe Xie

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-        public class AdminMainFrame extends BaseMainFrame {
+public class AdminMainFrame extends BaseMainFrame {
 
     private final FileFilter loadSaveFilter = new FileFilter() {
         @Override
