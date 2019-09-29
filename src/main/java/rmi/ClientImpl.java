@@ -21,6 +21,8 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
         this.userMainFrame = userMainFrame;
     }
 
+    //TODO: It will be better if we put these operations of BaseMainFrames into a new thread.
+    // But in this case, more work will be needed to achieve thread safety.
     @Override
     public void shapeFromServer(IShape shape) {
         userMainFrame.addShape(shape);
@@ -47,7 +49,7 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
     }
 
     @Override
-    public void userListFromServer(List<String> userList) throws RemoteException {
+    public void userListFromServer(List<String> userList) {
         userMainFrame.setUserList(userList);
     }
 
@@ -59,5 +61,10 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void onServerClosed() {
+        new Thread(() -> userMainFrame.onServerDisconnected()).start();
     }
 }

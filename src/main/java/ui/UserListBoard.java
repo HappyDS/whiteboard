@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -41,7 +42,13 @@ public class UserListBoard extends JPanel {
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE);
             if (res == 0) {
-                //TODO: kick out
+                String toKickOut = usernameList[userList.getSelectedIndex()];
+                System.out.println("todo: " + toKickOut);
+                try {
+                    server.removeUser(toKickOut);
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

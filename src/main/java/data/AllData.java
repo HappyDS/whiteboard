@@ -14,12 +14,6 @@ public class AllData implements Serializable {
     private List<ChatMessage> messageList;
     private List<String> userList;
 
-//    public AllData(List<IShape> shapeList, List<ChatMessage> messageList) {
-//        this.shapeList = shapeList;
-//        this.messageList = messageList;
-//    }
-
-
     public List<String> getUserList() {
         return userList;
     }

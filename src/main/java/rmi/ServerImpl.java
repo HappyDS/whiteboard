@@ -141,6 +141,58 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
         onUserDisconnected(disconnectedList);
     }
 
+    @Override
+    public void onClientClosed(String username) {
+        userList.remove(username);
+        IClient tmpClient = null;
+        for (IClient client: clientList) {
+            try {
+                if (client.getName().equals(username)) {
+                    tmpClient = client;
+                } else {
+                    client.userListFromServer(userList);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        if (tmpClient != null) {
+            clientList.remove(tmpClient);
+        }
+    }
+
+    @Override
+    public void closeServer() {
+        for (IClient client: clientList) {
+            try {
+                client.onServerClosed();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void removeUser(String username) {
+        try {
+            IClient tmp = null;
+            userList.remove(username);
+            for (IClient client: clientList) {
+                if (client.getName().equals(username)) {
+                    tmp = client;
+                } else {
+                    client.userListFromServer(userList);
+                }
+            }
+            if (tmp != null) {
+                clientList.remove(tmp);
+                tmp.onServerClosed();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onUserDisconnected(List<IClient> disconnectedClients) {
         userList.clear();
         try {
@@ -154,11 +206,13 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
                 }
             }
 
-            for (IClient client: clientList) {
+            for (IClient client : clientList) {
                 client.userListFromServer(userList);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }

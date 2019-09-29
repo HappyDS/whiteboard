@@ -23,4 +23,10 @@ public interface IServer extends Remote {
     AllData addUser(String[] info) throws RemoteException;
 
     void reloadFromFile(List<IShape> shapes) throws RemoteException;
+
+    void onClientClosed(String username) throws RemoteException;
+
+    void closeServer() throws RemoteException;
+
+    void removeUser(String username) throws RemoteException;
 }

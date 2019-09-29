@@ -44,16 +44,6 @@ public abstract class BaseMainFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                /* Below is testing code */
-                System.out.println("Closing");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                System.out.println("Closed");
-
-                /* real codes */
                 onWindowClosing();
                 super.windowClosing(e);
             }
@@ -225,6 +215,6 @@ public abstract class BaseMainFrame extends JFrame {
     public void reloadFromFile(List<IShape> shapes) {
         paintBoard.reloadFromFile(shapes);
     }
-    
+
     public abstract void onServerDisconnected();
 }

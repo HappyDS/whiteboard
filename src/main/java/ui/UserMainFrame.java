@@ -1,9 +1,9 @@
 package ui;
 
-import demo.AdminMain;
 import demo.UserMain;
 
 import javax.swing.*;
+import java.rmi.RemoteException;
 
 /**
  * @author Yangzhe Xie
@@ -21,7 +21,11 @@ public class UserMainFrame extends BaseMainFrame {
 
     @Override
     protected void onWindowClosing() {
-        //TODO
+        try {
+            server.onClientClosed(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -9,8 +9,6 @@ import util.StringUtil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -90,17 +88,16 @@ public class AdminMainFrame extends BaseMainFrame {
 
     @Override
     protected void onWindowClosing() {
-        //TODO
+        try {
+            server.closeServer();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onServerDisconnected() {
-        int res = JOptionPane.showConfirmDialog(this,
-                "Server closed", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-        if (res == 0) {
-            dispose();
-            AdminMain.main(new String[]{});
-        }
+        setVisible(false);
     }
 
     private void saveData() {

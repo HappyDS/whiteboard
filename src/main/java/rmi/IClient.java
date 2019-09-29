@@ -23,4 +23,6 @@ public interface IClient extends Remote {
     String getName() throws RemoteException;
 
     void setName(String name) throws RemoteException;
+
+    void onServerClosed() throws RemoteException;
 }
