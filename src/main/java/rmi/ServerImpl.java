@@ -12,6 +12,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,72 +32,64 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     @Override
     public void sendShape(IShape shape, String username) {
         shapeList.add(shape);
+        List<IClient> disconnectedList = new ArrayList<>();
         for (IClient client : clientList) {
             try {
                 if (!StringUtil.equals(client.getName(), username)) {
-                    try {
-                        client.shapeFromServer(shape);
-                    } catch (RemoteException e) {
-                        onUserDisconnected(client);
-                    }
+                    client.shapeFromServer(shape);
                 }
             } catch (RemoteException e) {
-                e.printStackTrace();
+                disconnectedList.add(client);
             }
         }
+        onUserDisconnected(disconnectedList);
     }
 
     @Override
     public void sendMessage(String message, String username) {
         ChatMessage chatMessage = new ChatMessage(username, message, DateUtil.getFormattedDate());
         messageList.add(chatMessage);
+        List<IClient> disconnectedList = new ArrayList<>();
         for (IClient client : clientList) {
             try {
                 if (!StringUtil.equals(client.getName(), username)) {
-                    try {
-                        client.messageFromServer(chatMessage);
-                    } catch (Exception e) {
-                        onUserDisconnected(client);
-                    }
+                    client.messageFromServer(chatMessage);
                 }
             } catch (RemoteException e) {
-                e.printStackTrace();
+                disconnectedList.add(client);
             }
         }
+        onUserDisconnected(disconnectedList);
     }
 
     @Override
-    public void undo(String username) throws RemoteException {
+    public void undo(String username) {
+        List<IClient> disconnectedList = new ArrayList<>();
         for (IClient client : clientList) {
             try {
                 if (!StringUtil.equals(client.getName(), username)) {
-                    try {
-                        client.undoFromServer();
-                    } catch (Exception e) {
-                        onUserDisconnected(client);
-                    }
+                    client.undoFromServer();
                 }
             } catch (RemoteException e) {
-                e.printStackTrace();
+                disconnectedList.add(client);
             }
         }
+        onUserDisconnected(disconnectedList);
     }
 
     @Override
     public void clear(String username) {
+        List<IClient> disconnectedList = new ArrayList<>();
         for (IClient client : clientList) {
             try {
                 if (!StringUtil.equals(client.getName(), username)) {
-                    try {
-                        client.clearFromServer();
-                    } catch (Exception e) {
-                        onUserDisconnected(client);
-                    }
+                    client.clearFromServer();
                 }
             } catch (RemoteException e) {
-                e.printStackTrace();
+                disconnectedList.add(client);
             }
         }
+        onUserDisconnected(disconnectedList);
     }
 
     @Override
@@ -130,14 +123,24 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
         return allData;
     }
 
-    public void onUserDisconnected(IClient client) {
-        clientList.remove(client);
+    public void onUserDisconnected(List<IClient> disconnectedClients) {
+        userList.clear();
         try {
-            System.out.println(client.getName() + " Left the room.");
-        } catch (RemoteException e) {
+            Iterator<IClient> it = clientList.iterator();
+            while (it.hasNext()) {
+                IClient client = it.next();
+                if (!disconnectedClients.contains(client)) {
+                    userList.add(client.getName());
+                } else {
+                    it.remove();
+                }
+            }
+
+            for (IClient client: clientList) {
+                client.userListFromServer(userList);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        //TODO this one haven't been tested.
-        //TODO other clients should be notified of this message
     }
 }

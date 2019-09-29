@@ -1,5 +1,6 @@
 package ui;
 
+import demo.AdminMain;
 import shape.IShape;
 import util.FileUtil;
 import util.MsgJsonFactory;
@@ -86,6 +87,16 @@ public class AdminMainFrame extends BaseMainFrame {
     @Override
     protected void onWindowClosing() {
         //TODO
+    }
+
+    @Override
+    public void onServerDisconnected() {
+        int res = JOptionPane.showConfirmDialog(this,
+                "Server closed", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+        if (res == 0) {
+            dispose();
+            AdminMain.main(new String[]{});
+        }
     }
 
     private void saveData() {

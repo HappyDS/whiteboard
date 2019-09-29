@@ -56,6 +56,7 @@ public abstract class BaseMainFrame extends JFrame {
                 super.windowClosing(e);
             }
         });
+        paintBoard.setMainFrame(this);
     }
 
     public void setServer(IServer server) {
@@ -217,4 +218,6 @@ public abstract class BaseMainFrame extends JFrame {
     public void remoteClear() {
         paintBoard.remoteClear();
     }
+    
+    public abstract void onServerDisconnected();
 }

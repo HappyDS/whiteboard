@@ -41,6 +41,8 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private IServer server;
     private String username = "default";
 
+    private BaseMainFrame mainFrame;
+
     public PaintBoard(String username) {
         this.username = username;
         this.addMouseListener(this);
@@ -211,8 +213,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         try {
             server.sendShape(shape, username);
         } catch (RemoteException e) {
-            //TODO: handle the exception. the user is disconnected.
-            e.printStackTrace();
+            mainFrame.onServerDisconnected();
         }
     }
 
@@ -275,8 +276,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         try {
             server.clear(username);
         } catch (RemoteException e) {
-            //TODO: handle the exception. the user is disconnected.
-            e.printStackTrace();
+            mainFrame.onServerDisconnected();
         }
     }
 
@@ -301,8 +301,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         try {
             server.undo(username);
         } catch (RemoteException e) {
-            e.printStackTrace();
-            //TODO: handle the exception. the user is disconnected.
+            mainFrame.onServerDisconnected();
         }
     }
 
@@ -361,5 +360,9 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
 
     public void setServer(IServer server) {
         this.server = server;
+    }
+
+    public void setMainFrame(BaseMainFrame mainFrame) {
+        this.mainFrame = mainFrame;
     }
 }
