@@ -229,6 +229,11 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         repaint();
     }
 
+    public void reloadFromFile(List<IShape> shapes) {
+        shapeStack.clear();
+        addShapesWithRepaint(shapes);
+    }
+
     /**
      * Set shape
      *

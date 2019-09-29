@@ -37,6 +37,11 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
     }
 
     @Override
+    public void reloadFromServer(List<IShape> shapes) {
+        userMainFrame.reloadFromFile(shapes);
+    }
+
+    @Override
     public void messageFromServer(ChatMessage message) {
         userMainFrame.addMessage(message);
     }

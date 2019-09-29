@@ -5,6 +5,7 @@ import shape.IShape;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * @author Yangzhe Xie
@@ -20,4 +21,6 @@ public interface IServer extends Remote {
     void clear(String username) throws RemoteException;
 
     AllData addUser(String[] info) throws RemoteException;
+
+    void reloadFromFile(List<IShape> shapes) throws RemoteException;
 }

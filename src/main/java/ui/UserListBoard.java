@@ -4,6 +4,8 @@ import rmi.IServer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
@@ -15,6 +17,7 @@ public class UserListBoard extends JPanel {
     private String username;
     private IServer server;
     private JList<String> userList;
+    private String[] usernameList;
 
     public UserListBoard(String username) {
         this.username = username;
@@ -27,18 +30,48 @@ public class UserListBoard extends JPanel {
         add(new Label(), BorderLayout.SOUTH);
     }
 
+    public void initKickOutOption() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem deleteItem = new JMenuItem("disconnect");
+        popupMenu.add(deleteItem);
+        deleteItem.addActionListener(e -> {
+            int res = JOptionPane.showConfirmDialog(null,
+                    "Are you sure to kick out this user? ",
+                    "Message",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            if (res == 0) {
+                //TODO: kick out
+            }
+        });
+
+        userList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    if (e.getButton() == 3 && usernameList.length > 1
+                            && !usernameList[userList.getSelectedIndex()]
+                            .replace(" (me)", "").equals(username)) {
+                        popupMenu.show(userList, e.getX(), e.getY());
+                    }
+                } catch (Exception ex) {
+
+                }
+            }
+        });
+    }
+
     public void setServer(IServer server) {
         this.server = server;
     }
 
     public synchronized void setUserList(List<String> list) {
-        String[] strings = list.toArray(new String[list.size()]);
+        usernameList = list.toArray(new String[list.size()]);
         for (int i = 0; i < list.size(); i++) {
-            if (strings[i].equals(username)) {
-                System.out.println(username);
-                strings[i] = username + " (me)";
+            if (usernameList[i].equals(username)) {
+                usernameList[i] = username + " (me)";
             }
         }
-        userList.setListData(strings);
+        userList.setListData(usernameList);
     }
 }

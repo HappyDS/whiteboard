@@ -9,7 +9,10 @@ import util.StringUtil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +52,7 @@ public class AdminMainFrame extends BaseMainFrame {
 
     public AdminMainFrame(String username) {
         super(username);
+        userListBoard.initKickOutOption();
     }
 
     @Override
@@ -148,15 +152,18 @@ public class AdminMainFrame extends BaseMainFrame {
                     try {
                         IShape shape = (IShape) MsgJsonFactory.fromJson(s);
                         shapes.add(shape);
-//                        paintBoard.addShapeWithRepaint(shape);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this,
                                 "Error loading file", "Message", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
-            paintBoard.clearShapes();
-            paintBoard.addShapesWithRepaint(shapes);
+
+            try {
+                server.reloadFromFile(shapes);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

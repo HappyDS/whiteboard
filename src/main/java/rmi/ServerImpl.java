@@ -65,6 +65,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     @Override
     public void undo(String username) {
         List<IClient> disconnectedList = new ArrayList<>();
+        shapeList.remove(shapeList.size() - 1);
         for (IClient client : clientList) {
             try {
                 if (!StringUtil.equals(client.getName(), username)) {
@@ -80,6 +81,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     @Override
     public void clear(String username) {
         List<IClient> disconnectedList = new ArrayList<>();
+        shapeList.clear();
         for (IClient client : clientList) {
             try {
                 if (!StringUtil.equals(client.getName(), username)) {
@@ -121,6 +123,22 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             e.printStackTrace();
         }
         return allData;
+    }
+
+    @Override
+    public void reloadFromFile(List<IShape> shapes) {
+        List<IClient> disconnectedList = new ArrayList<>();
+        shapeList.clear();
+        shapeList.addAll(shapes);
+        for (IClient client : clientList) {
+            try {
+                client.reloadFromServer(shapeList);
+            } catch (RemoteException e) {
+                disconnectedList.add(client);
+                e.printStackTrace();
+            }
+        }
+        onUserDisconnected(disconnectedList);
     }
 
     public void onUserDisconnected(List<IClient> disconnectedClients) {

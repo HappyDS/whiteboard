@@ -23,10 +23,12 @@ public abstract class BaseMainFrame extends JFrame {
     protected ChatBoard chatBoard;
     protected PaintBoard paintBoard;
     protected UserListBoard userListBoard;
+    protected String username;
 
     protected IServer server;
 
     public BaseMainFrame(String username) {
+        this.username = username;
         paintBoard = new PaintBoard(username);
         chatBoard = new ChatBoard(username);
         userListBoard = new UserListBoard(username);
@@ -60,6 +62,7 @@ public abstract class BaseMainFrame extends JFrame {
     }
 
     public void setServer(IServer server) {
+        this.server = server;
         paintBoard.setServer(server);
         chatBoard.setServer(server);
         userListBoard.setServer(server);
@@ -217,6 +220,10 @@ public abstract class BaseMainFrame extends JFrame {
 
     public void remoteClear() {
         paintBoard.remoteClear();
+    }
+
+    public void reloadFromFile(List<IShape> shapes) {
+        paintBoard.reloadFromFile(shapes);
     }
     
     public abstract void onServerDisconnected();

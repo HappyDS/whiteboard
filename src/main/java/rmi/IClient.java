@@ -14,6 +14,8 @@ public interface IClient extends Remote {
 
     void clearFromServer() throws RemoteException;
 
+    void reloadFromServer(List<IShape> shapes) throws RemoteException;
+
     void messageFromServer(ChatMessage message) throws RemoteException;
 
     void userListFromServer(List<String> userList) throws RemoteException;
