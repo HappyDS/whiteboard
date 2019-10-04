@@ -8,6 +8,7 @@ import ui.BaseMainFrame;
 import ui.UserMainFrame;
 import ui.UserStarterFrame;
 
+import javax.swing.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
@@ -40,13 +41,21 @@ public class UserMain {
                 Registry serverRegistry = LocateRegistry.getRegistry(ip, port);
                 IServer server = (IServer) serverRegistry.lookup("Server");
                 AllData allData = server.addUser(new String[]{username, inetAddress.getHostAddress(), String.valueOf(localPort), "Client"});
-                mainFrame.setServer(server);
-                mainFrame.initShapes(allData.getShapeList());
-                mainFrame.initMessages(allData.getMessageList());
-                mainFrame.setUserList(allData.getUserList());
 
-                mainFrame.setVisible(true);
-                starterFrame.dispose();
+                if (allData.getCode() == -1) {
+                    /* Username exists */
+                    JOptionPane.showMessageDialog(null,
+                            "Username exists, plese try another one", "Message", JOptionPane.ERROR_MESSAGE);
+                    mainFrame.dispose();
+                } else {
+                    mainFrame.setServer(server);
+                    mainFrame.initShapes(allData.getShapeList());
+                    mainFrame.initMessages(allData.getMessageList());
+                    mainFrame.setUserList(allData.getUserList());
+
+                    mainFrame.setVisible(true);
+                    starterFrame.dispose();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

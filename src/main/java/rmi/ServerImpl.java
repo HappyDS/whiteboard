@@ -106,6 +106,12 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             int port = NumberUtil.convertToint(info[2], 1099);
             String serviceName = info[3];
 
+            /* Username exists */
+            if (userList.contains(username)) {
+                allData.setCode(-1);
+                return allData;
+            }
+
             Registry clientRegistry = LocateRegistry.getRegistry(host, port);
             IClient client = (IClient) clientRegistry.lookup(serviceName);
             client.setName(username);

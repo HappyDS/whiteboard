@@ -10,9 +10,18 @@ import java.util.List;
  * @date 21/9/19
  */
 public class AllData implements Serializable {
+    private int code;
     private List<IShape> shapeList;
     private List<ChatMessage> messageList;
     private List<String> userList;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     public List<String> getUserList() {
         return userList;
