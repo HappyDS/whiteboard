@@ -1,14 +1,12 @@
 package shape;
 
-import msg.IMessage;
-
 import java.awt.*;
 
 /**
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class Text implements IShape, IMessage {
+public class Text implements IShape {
 
     private final int type = 6;
     private Point position;
@@ -30,10 +28,5 @@ public class Text implements IShape, IMessage {
             g.setColor(color);
             g.drawString(string, position.getX(), position.getY());
         }
-    }
-
-    @Override
-    public int getType() {
-        return type;
     }
 }

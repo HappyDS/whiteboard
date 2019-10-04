@@ -1,6 +1,5 @@
 package ui;
 
-import demo.AdminMain;
 import shape.IShape;
 import util.FileUtil;
 import util.MsgJsonFactory;

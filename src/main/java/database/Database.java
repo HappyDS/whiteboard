@@ -1,7 +1,7 @@
 package database;
 
 import config.Config;
-import data.types;
+import config.types;
 import server.Session;
 
 import java.sql.*;

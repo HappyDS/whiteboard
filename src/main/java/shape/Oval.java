@@ -1,14 +1,12 @@
 package shape;
 
-import msg.IMessage;
-
 import java.awt.*;
 
 /**
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class Oval implements IShape, IMessage {
+public class Oval implements IShape {
 
     private final int type = 4;
     private Point leftTop;
@@ -31,10 +29,5 @@ public class Oval implements IShape, IMessage {
         g.setStroke(bs);
         g.setColor(color);
         g.drawOval(leftTop.getX(), leftTop.getY(), width, height);
-    }
-
-    @Override
-    public int getType() {
-        return type;
     }
 }

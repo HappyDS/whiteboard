@@ -1,7 +1,5 @@
 package shape;
 
-import msg.IMessage;
-
 import java.awt.*;
 import java.util.List;
 
@@ -9,7 +7,7 @@ import java.util.List;
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class Eraser implements IShape, IMessage {
+public class Eraser implements IShape {
     private final int type = 7;
     private List<Point> points;
     private int size;
@@ -34,10 +32,5 @@ public class Eraser implements IShape, IMessage {
 
         g.setStroke(strokeBackup);
         g.setColor(colorBackup);
-    }
-
-    @Override
-    public int getType() {
-        return type;
     }
 }

@@ -1,7 +1,5 @@
 package shape;
 
-import msg.IMessage;
-
 import java.awt.*;
 import java.util.List;
 
@@ -9,7 +7,7 @@ import java.util.List;
  * @author Yangzhe Xie
  * @date 18/9/19
  */
-public class FreeDraw implements IShape, IMessage {
+public class FreeDraw implements IShape {
 
     private final int type = 5;
     private List<Point> points;
@@ -31,10 +29,5 @@ public class FreeDraw implements IShape, IMessage {
             g.drawLine(points.get(i).getX(), points.get(i).getY(),
                     points.get(i + 1).getX(), points.get(i + 1).getY());
         }
-    }
-
-    @Override
-    public int getType() {
-        return type;
     }
 }

@@ -1,6 +1,6 @@
 package ui;
 
-import demo.UserMain;
+import main.UserMain;
 
 import javax.swing.*;
 import java.rmi.RemoteException;

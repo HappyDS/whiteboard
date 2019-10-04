@@ -1,4 +1,4 @@
-package demo;
+package main;
 
 import data.AllData;
 import rmi.ClientImpl;
@@ -18,6 +18,7 @@ import java.rmi.registry.Registry;
  * @date 21/9/19
  */
 public class UserMain {
+    /* Main program entry for admin, the logic is similar to AdminMain.java */
     public static void main(String[] args) {
         UserStarterFrame starterFrame = new UserStarterFrame();
         starterFrame.setVisible(true);
@@ -43,7 +44,6 @@ public class UserMain {
                 mainFrame.initShapes(allData.getShapeList());
                 mainFrame.initMessages(allData.getMessageList());
                 mainFrame.setUserList(allData.getUserList());
-                System.out.println("UserReady: " + username);
 
                 mainFrame.setVisible(true);
                 starterFrame.dispose();

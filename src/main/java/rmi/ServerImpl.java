@@ -145,7 +145,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     public void onClientClosed(String username) {
         userList.remove(username);
         IClient tmpClient = null;
-        for (IClient client: clientList) {
+        for (IClient client : clientList) {
             try {
                 if (client.getName().equals(username)) {
                     tmpClient = client;
@@ -163,7 +163,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
 
     @Override
     public void closeServer() {
-        for (IClient client: clientList) {
+        for (IClient client : clientList) {
             try {
                 client.onServerClosed();
             } catch (RemoteException e) {
@@ -177,7 +177,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
         try {
             IClient tmp = null;
             userList.remove(username);
-            for (IClient client: clientList) {
+            for (IClient client : clientList) {
                 if (client.getName().equals(username)) {
                     tmp = client;
                 } else {

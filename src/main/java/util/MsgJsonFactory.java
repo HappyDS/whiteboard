@@ -3,7 +3,6 @@ package util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
-import msg.IMessage;
 import shape.*;
 
 /**
@@ -12,7 +11,7 @@ import shape.*;
  */
 public class MsgJsonFactory {
     private static Gson gson = new GsonBuilder()
-            .registerTypeAdapter(IMessage.class, (JsonDeserializer<IMessage>)
+            .registerTypeAdapter(IShape.class, (JsonDeserializer<IShape>)
                     (jsonElement, type, jsonDeserializationContext) -> {
                         int msgType = jsonElement.getAsJsonObject().get("type").getAsInt();
                         switch (msgType) {
@@ -33,12 +32,12 @@ public class MsgJsonFactory {
                         }
                     }).create();
 
-    public static <T extends IMessage> T fromJson(String json, Class<T> tClass) {
+    public static <T extends IShape> T fromJson(String json, Class<T> tClass) {
         return gson.fromJson(json, tClass);
     }
 
-    public static IMessage fromJson(String json) {
-        return gson.fromJson(json, IMessage.class);
+    public static IShape fromJson(String json) {
+        return gson.fromJson(json, IShape.class);
     }
 
     public static <T> String toJson(T object) {
