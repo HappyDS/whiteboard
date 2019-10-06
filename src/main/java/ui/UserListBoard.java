@@ -1,6 +1,7 @@
 package ui;
 
 import rmi.IServer;
+import util.Looper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +20,9 @@ public class UserListBoard extends JPanel {
     private IServer server;
     private JList<String> userList;
     private String[] usernameList;
+    private Looper looper;
 
-    public UserListBoard(String username) {
+    public UserListBoard(String username, Looper looper) {
         this.username = username;
         setLayout(new BorderLayout(5, 5));
         add(new Label("User list: "), BorderLayout.NORTH);
@@ -29,6 +31,7 @@ public class UserListBoard extends JPanel {
 
         add(scrollPane, BorderLayout.CENTER);
         add(new Label(), BorderLayout.SOUTH);
+        this.looper = looper;
     }
 
     public void initKickOutOption() {
@@ -43,12 +46,13 @@ public class UserListBoard extends JPanel {
                     JOptionPane.WARNING_MESSAGE);
             if (res == 0) {
                 String toKickOut = usernameList[userList.getSelectedIndex()];
-                System.out.println("todo: " + toKickOut);
-                try {
-                    server.removeUser(toKickOut);
-                } catch (RemoteException ex) {
-                    ex.printStackTrace();
-                }
+                looper.post(() -> {
+                    try {
+                        server.removeUser(toKickOut);
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
+                });
             }
         });
 

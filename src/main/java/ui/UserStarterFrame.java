@@ -88,7 +88,6 @@ public class UserStarterFrame extends JFrame {
                 return;
             }
             if (StringUtil.isEmpty(username)) {
-                //TODO username may exist
                 JOptionPane.showMessageDialog(panel,
                         "Please input a usernmae", "Message", JOptionPane.ERROR_MESSAGE);
                 return;

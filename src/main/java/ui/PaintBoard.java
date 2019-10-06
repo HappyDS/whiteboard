@@ -30,7 +30,6 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private Color currentColor;
     private ShapeType currentShape;
 
-    //TODO: Might not be thread safe
     private List<Point> freeDraw = new ArrayList<>();   /* A series of points on a free draw path */
     private List<Point> eraserPath = new ArrayList<>();
 
@@ -39,21 +38,20 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private int penSize = 1;
     private int textSize = 14;
 
-    //TODO: move all operations of server to a seperated thread
     private IServer server;
     private String username = "default";
 
     private BaseMainFrame mainFrame;
     private Looper looper;
 
-    public PaintBoard(String username) {
+    public PaintBoard(String username, Looper looper) {
         this.username = username;
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         currentColor = Color.BLACK;
         shapeStack = new Stack<IShape>();
         currentShape = ShapeType.LINE;
-        looper = new Looper();
+        this.looper = looper;
     }
 
     public void setUsername(String username) {
@@ -214,11 +212,13 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         shapeStack.push(shape);
         /* Print all shape as JSON */
         System.out.println(MsgJsonFactory.toJson(shape));
-        try {
-            server.sendShape(shape, username);
-        } catch (RemoteException e) {
-            mainFrame.onServerDisconnected();
-        }
+        looper.post(() -> {
+            try {
+                server.sendShape(shape, username);
+            } catch (RemoteException e) {
+                mainFrame.onServerDisconnected();
+            }
+        });
     }
 
     public synchronized void addShapeWithRepaint(IShape shape) {
@@ -282,11 +282,13 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
             shapeStack.pop();
         }
         repaint();
-        try {
-            server.clear(username);
-        } catch (RemoteException e) {
-            mainFrame.onServerDisconnected();
-        }
+        looper.post(() -> {
+            try {
+                server.clear(username);
+            } catch (RemoteException e) {
+                mainFrame.onServerDisconnected();
+            }
+        });
     }
 
     public void remoteClear() {
@@ -307,11 +309,13 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     public void undo() {
         shapeStack.pop();
         repaint();
-        try {
-            server.undo(username);
-        } catch (RemoteException e) {
-            mainFrame.onServerDisconnected();
-        }
+        looper.post(() -> {
+            try {
+                server.undo(username);
+            } catch (RemoteException e) {
+                mainFrame.onServerDisconnected();
+            }
+        });
     }
 
     public String exportData() {

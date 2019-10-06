@@ -4,6 +4,7 @@ import data.ChatMessage;
 import rmi.IServer;
 import shape.IShape;
 import shape.ShapeType;
+import util.Looper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,13 +26,16 @@ public abstract class BaseMainFrame extends JFrame {
     protected UserListBoard userListBoard;
     protected String username;
 
+    protected Looper looper;
+
     protected IServer server;
 
     public BaseMainFrame(String username) {
+        looper = new Looper();
         this.username = username;
-        paintBoard = new PaintBoard(username);
-        chatBoard = new ChatBoard(username);
-        userListBoard = new UserListBoard(username);
+        paintBoard = new PaintBoard(username, looper);
+        chatBoard = new ChatBoard(username, looper);
+        userListBoard = new UserListBoard(username, looper);
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

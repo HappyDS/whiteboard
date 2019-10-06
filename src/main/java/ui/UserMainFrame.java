@@ -23,6 +23,7 @@ public class UserMainFrame extends BaseMainFrame {
     protected void onWindowClosing() {
         try {
             server.onClientClosed(username);
+            looper.stop();
         } catch (RemoteException e) {
             e.printStackTrace();
         }

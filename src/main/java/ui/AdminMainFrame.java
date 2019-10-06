@@ -89,6 +89,7 @@ public class AdminMainFrame extends BaseMainFrame {
     protected void onWindowClosing() {
         try {
             server.closeServer();
+            looper.stop();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -155,11 +156,13 @@ public class AdminMainFrame extends BaseMainFrame {
                 }
             }
 
-            try {
-                server.reloadFromFile(shapes);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            looper.post(() -> {
+                try {
+                    server.reloadFromFile(shapes);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 }

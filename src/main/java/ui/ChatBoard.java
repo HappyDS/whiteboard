@@ -2,6 +2,7 @@ package ui;
 
 import rmi.IServer;
 import util.DateUtil;
+import util.Looper;
 import util.StringUtil;
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ public class ChatBoard extends JPanel {
     private String username;
     private IServer server;
 
-    public ChatBoard(String username) {
+    public ChatBoard(String username, Looper looper) {
 
         this.username = username;
         setLayout(new BorderLayout(5, 5));
@@ -57,11 +58,13 @@ public class ChatBoard extends JPanel {
                         .append("\n");
                 msgBox.append(sb.toString());
                 msgBox.append("\n");
-                try {
-                    server.sendMessage(text, username);
-                } catch (RemoteException ex) {
-                    ex.printStackTrace();
-                }
+                looper.post(() -> {
+                    try {
+                        server.sendMessage(text, username);
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
+                });
             }
         });
     }

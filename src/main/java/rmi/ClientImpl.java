@@ -21,8 +21,6 @@ public class ClientImpl extends UnicastRemoteObject implements IClient {
         this.userMainFrame = userMainFrame;
     }
 
-    //TODO: It will be better if we put these operations of BaseMainFrames into a new thread.
-    // But in this case, more work will be needed to achieve thread safety.
     @Override
     public void shapeFromServer(IShape shape) {
         userMainFrame.addShape(shape);
