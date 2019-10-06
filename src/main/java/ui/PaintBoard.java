@@ -4,6 +4,7 @@ import rmi.IServer;
 import shape.Point;
 import shape.Rectangle;
 import shape.*;
+import util.Looper;
 import util.MsgJsonFactory;
 
 import javax.swing.*;
@@ -38,10 +39,12 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     private int penSize = 1;
     private int textSize = 14;
 
+    //TODO: move all operations of server to a seperated thread
     private IServer server;
     private String username = "default";
 
     private BaseMainFrame mainFrame;
+    private Looper looper;
 
     public PaintBoard(String username) {
         this.username = username;
@@ -50,6 +53,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         currentColor = Color.BLACK;
         shapeStack = new Stack<IShape>();
         currentShape = ShapeType.LINE;
+        looper = new Looper();
     }
 
     public void setUsername(String username) {
