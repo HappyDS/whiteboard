@@ -9,12 +9,15 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ALL")
 public class AdminMainFrame extends BaseMainFrame {
+
+    private String currentFileName = null;
 
     private final FileFilter loadSaveFilter = new FileFilter() {
         @Override
@@ -66,19 +69,23 @@ public class AdminMainFrame extends BaseMainFrame {
         JMenuItem newMenuItem = new JMenuItem("New");
         JMenuItem openMenuItem = new JMenuItem("Open");
         JMenuItem saveMenuItem = new JMenuItem("Save");
+        JMenuItem saveAsMenuItem = new JMenuItem("Save as");
         JMenuItem exportMenuItem = new JMenuItem("Export");
         saveMenuItem.addActionListener(e -> saveData());
+        saveAsMenuItem.addActionListener(e -> saveDataToNewFile());
         openMenuItem.addActionListener(e -> loadData());
         exportMenuItem.addActionListener(e -> savePNG());
         fileMenu.add(newMenuItem);
         fileMenu.add(openMenuItem);
         fileMenu.add(saveMenuItem);
+        fileMenu.add(saveAsMenuItem);
         fileMenu.add(exportMenuItem);
 
         JMenuItem clearMenuItem = new JMenuItem("Clear");
         clearMenuItem.addActionListener(e -> clear());
         JMenuItem redoMenuItem = new JMenuItem("Undo");
         redoMenuItem.addActionListener(e -> undo());
+        newMenuItem.addActionListener(e -> clear());
         editMenu.add(clearMenuItem);
         editMenu.add(redoMenuItem);
         setJMenuBar(menuBar);
@@ -100,7 +107,7 @@ public class AdminMainFrame extends BaseMainFrame {
         setVisible(false);
     }
 
-    private void saveData() {
+    private void saveDataToNewFile() {
         JFileChooser saveFileChooser = new JFileChooser();
         saveFileChooser.setFileFilter(this.loadSaveFilter);
         saveFileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -112,8 +119,21 @@ public class AdminMainFrame extends BaseMainFrame {
                 path = path + ".wb";
             }
             FileUtil.write(paintBoard.exportData(), path);
+            currentFileName = path;
         } catch (Exception e) {
 
+        }
+    }
+
+    private void saveData() {
+        if (!StringUtil.isEmpty(currentFileName)) {
+            try {
+                FileUtil.write(paintBoard.exportData(), currentFileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            saveDataToNewFile();
         }
     }
 
@@ -142,6 +162,7 @@ public class AdminMainFrame extends BaseMainFrame {
         loadFileChooser.showOpenDialog(null);
         File file = loadFileChooser.getSelectedFile();
         if (file != null) {
+            currentFileName = file.getAbsolutePath();
             List<String> info = FileUtil.read(file.getAbsolutePath());
             List<IShape> shapes = new ArrayList<>();
             for (String s : info) {
