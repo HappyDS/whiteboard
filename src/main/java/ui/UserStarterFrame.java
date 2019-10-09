@@ -10,14 +10,14 @@ import java.net.InetAddress;
  * @author Yangzhe Xie
  * @date 24/9/19
  */
-public class UserStarterFrame extends JFrame {
+public class UserStarterFrame extends SizeFitter {
 
     private OnClientConnectClickListener onClientConnectClickListener;
     private JPanel panel;
 
     public UserStarterFrame() {
         super("Client Starter");
-        setSize(320, 240);
+        fitSize(320, 280);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -31,39 +31,46 @@ public class UserStarterFrame extends JFrame {
 
         panel.setLayout(null);
         JLabel addressLabel = new JLabel("Server address: ");
-
-        addressLabel.setBounds(25, 40, 100, 25);
+        fitBounds(addressLabel, 25, 40, 100, 25);
+//        addressLabel.setBounds(25, 40, 100, 25);
         panel.add(addressLabel);
 
         JTextField addressText = new JTextField(20);
-        addressText.setBounds(125, 40, 165, 25);
+        fitBounds(addressText, 125, 40, 165, 25);
+//        addressText.setBounds(125, 40, 165, 25);
         panel.add(addressText);
 
         JLabel portLabel = new JLabel("Port: ");
-        portLabel.setBounds(25, 80, 80, 25);
+        fitBounds(portLabel, 25, 80, 80, 25);
+//        portLabel.setBounds(25, 80, 80, 25);
         panel.add(portLabel);
 
         JTextField portText = new JTextField(20);
-        portText.setBounds(125, 80, 165, 25);
+        fitBounds(portText, 125, 80, 165, 25);
+//        portText.setBounds(125, 80, 165, 25);
         panel.add(portText);
 
         JLabel usernameLabel = new JLabel("Username: ");
-        usernameLabel.setBounds(25, 120, 80, 25);
+        fitBounds(usernameLabel, 25, 120, 80, 25);
+//        usernameLabel.setBounds(25, 120, 80, 25);
         panel.add(usernameLabel);
 
         JTextField usernameText = new JTextField(20);
-        usernameText.setBounds(125, 120, 165, 25);
+        fitBounds(usernameText, 125, 120, 165, 25);
+//        usernameText.setBounds(125, 120, 165, 25);
         panel.add(usernameText);
 
         JButton cancelButton = new JButton("Exit");
         cancelButton.addActionListener(e -> {
             System.exit(0);
         });
-        cancelButton.setBounds(25, 170, 100, 25);
+        fitBounds(cancelButton, 25, 170, 100, 25);
+//        cancelButton.setBounds(25, 170, 100, 25);
         panel.add(cancelButton);
 
         JButton connectButton = new JButton("Connect");
-        connectButton.setBounds(185, 170, 100, 25);
+        fitBounds(connectButton, 185, 170, 100, 25);
+//        connectButton.setBounds(185, 170, 100, 25);
         panel.add(connectButton);
 
         /* add click acton of connect button */

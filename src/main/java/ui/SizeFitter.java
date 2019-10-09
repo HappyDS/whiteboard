@@ -14,16 +14,20 @@ public class SizeFitter extends JFrame {
         super(title);
     }
 
-    private int H(float height) {
-        return (int) (height * screenSize.height);
+    private int H(int height) {
+        return (height * screenSize.height / defaultSize.height);
     }
 
-    private int W(float width) {
-        return (int) (width * screenSize.width);
+    private int W(int width) {
+        return (width * screenSize.width / defaultSize.width);
     }
 
-    public void fitSize(float w, float h) {
+    public void fitSize(int w, int h) {
         setSize(W(w), H(h));
+    }
+
+    public void fitBounds(JComponent l, int x, int y, int w, int h) {
+        l.setBounds(W(x), H(y), W(w), H(h));
     }
 //    public int X(float x) {
 //        return x / defaultSize.width * screenSize.width;

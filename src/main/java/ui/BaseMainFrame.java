@@ -72,9 +72,8 @@ public abstract class BaseMainFrame extends JFrame {
 //        PaintBoard paintBoard = new PaintBoard();
         String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"};
         JComboBox<String> optionMenu = new JComboBox<>(optionListData);
-
-        boardPanel.add(paintBoard, BorderLayout.CENTER);
         boardPanel.add(optionMenu, BorderLayout.NORTH);
+        boardPanel.add(paintBoard, BorderLayout.CENTER);
         boardPanel.add(optionPanel, BorderLayout.SOUTH);
 
         CardLayout cardLayout = new CardLayout();

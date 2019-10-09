@@ -17,7 +17,7 @@ public class AdminStarterFrame extends SizeFitter {
     public AdminStarterFrame() {
         super("Admin Starter");
 
-        fitSize(0.2f, 0.3f);
+        fitSize(320, 240);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -31,31 +31,41 @@ public class AdminStarterFrame extends SizeFitter {
 
         panel.setLayout(null);
         JLabel usernameLabel = new JLabel("Username: ");
-
-        usernameLabel.setBounds(25, 40, 100, 25);
+        fitBounds(usernameLabel, 25, 40, 100, 25);
+//        usernameLabel.setBounds(25, 40, 100, 25);
         panel.add(usernameLabel);
 
         JTextField usernameText = new JTextField(20);
-        usernameText.setBounds(125, 40, 165, 25);
+        fitBounds(usernameText, 125, 40, 165, 25);
+
+//        usernameText.setBounds(125, 40, 165, 25);
         panel.add(usernameText);
 
         JLabel portLabel = new JLabel("Port: ");
-        portLabel.setBounds(25, 80, 80, 25);
+        fitBounds(portLabel, 25, 80, 80, 25);
+
+//        portLabel.setBounds(25, 80, 80, 25);
         panel.add(portLabel);
 
         JTextField portText = new JTextField(20);
-        portText.setBounds(125, 80, 165, 25);
+        fitBounds(portText, 125, 80, 165, 25);
+
+//        portText.setBounds(125, 80, 165, 25);
         panel.add(portText);
 
         JButton cancelButton = new JButton("Exit");
         cancelButton.addActionListener(e -> {
             System.exit(0);
         });
-        cancelButton.setBounds(25, 120, 100, 25);
+        fitBounds(cancelButton, 25, 120, 100, 25);
+
+//        cancelButton.setBounds(25, 120, 100, 25);
         panel.add(cancelButton);
 
-        JButton connectButton = new JButton("Connect");
-        connectButton.setBounds(185, 120, 100, 25);
+        JButton connectButton = new JButton("Start");
+        fitBounds(connectButton, 185, 120, 100, 25);
+
+//        connectButton.setBounds(185, 120, 100, 25);
         panel.add(connectButton);
 
         /* add click acton of connect button */
