@@ -9,14 +9,15 @@ import javax.swing.*;
  * @author Yangzhe Xie
  * @date 24/9/19
  */
-public class AdminStarterFrame extends JFrame {
+public class AdminStarterFrame extends SizeFitter {
 
     private OnAdminConnectClickListener onAdminConnectClickListener;
     private JPanel panel;
 
     public AdminStarterFrame() {
         super("Admin Starter");
-        setSize(320, 200);
+
+        fitSize(0.2f, 0.3f);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
