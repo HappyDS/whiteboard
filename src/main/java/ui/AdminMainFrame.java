@@ -1,5 +1,6 @@
 package ui;
 
+import config.Config;
 import shape.IShape;
 import util.FileUtil;
 import util.MsgJsonFactory;
@@ -61,9 +62,11 @@ public class AdminMainFrame extends BaseMainFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenu editMenu = new JMenu("Edit");
+        JMenu settingsMenu = new JMenu("Settings");
         JMenu aboutMenu = new JMenu("About");
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
+        menuBar.add(settingsMenu);
         menuBar.add(aboutMenu);
 
         JMenuItem newMenuItem = new JMenuItem("New");
@@ -88,8 +91,29 @@ public class AdminMainFrame extends BaseMainFrame {
         newMenuItem.addActionListener(e -> clear());
         editMenu.add(clearMenuItem);
         editMenu.add(redoMenuItem);
-        setJMenuBar(menuBar);
 
+        JMenuItem connectionItem = new JMenuItem("Disable new connections");
+        connectionItem.addActionListener(e -> {
+            if (Config.SERVER_ALLOW_CONNECTION) {
+                connectionItem.setText("Enable new connections");
+            } else {
+                connectionItem.setText("Disable new connections");
+            }
+            Config.SERVER_ALLOW_CONNECTION = !Config.SERVER_ALLOW_CONNECTION;
+        });
+        JMenuItem confirmItem = new JMenuItem("Disable conntect confirmation");
+        confirmItem.addActionListener(e -> {
+            if (Config.ENABLE_CONFIRM) {
+                confirmItem.setText("Enable new confirmation");
+            } else {
+                confirmItem.setText("Disable new confirmation");
+            }
+            Config.ENABLE_CONFIRM = !Config.ENABLE_CONFIRM;
+        });
+        settingsMenu.add(connectionItem);
+        settingsMenu.add(confirmItem);
+
+        setJMenuBar(menuBar);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package rmi;
 
+import config.Config;
 import data.AllData;
 import data.ChatMessage;
 import shape.IShape;
@@ -7,6 +8,7 @@ import util.DateUtil;
 import util.NumberUtil;
 import util.StringUtil;
 
+import javax.swing.*;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -98,6 +100,11 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     public AllData addUser(String[] info) {
         AllData allData = new AllData();
         try {
+            if (!Config.SERVER_ALLOW_CONNECTION) {
+                allData.setCode(-1);
+                allData.setMsg("Connection refused");
+                return allData;
+            }
             for (String s : info) {
                 System.out.println(s);
             }
@@ -109,7 +116,20 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             /* Username exists */
             if (userList.contains(username)) {
                 allData.setCode(-1);
+                allData.setMsg("Username exists, please try another one");
                 return allData;
+            }
+
+            if (!host.equals("127.0.0.1") && Config.ENABLE_CONFIRM) {
+                String[] options = {"Approve", "Reject"};
+                int x = JOptionPane.showOptionDialog(null, username + " wants to connect to the whiteboard",
+                        "Message",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+                if (x != 0) {
+                    allData.setCode(-1);
+                    allData.setMsg("Connection refused");
+                    return allData;
+                }
             }
 
             Registry clientRegistry = LocateRegistry.getRegistry(host, port);

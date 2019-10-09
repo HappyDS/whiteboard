@@ -45,7 +45,7 @@ public class UserMain {
                 if (allData.getCode() == -1) {
                     /* Username exists */
                     JOptionPane.showMessageDialog(null,
-                            "Username exists, plese try another one", "Message", JOptionPane.ERROR_MESSAGE);
+                            allData.getMsg(), "Message", JOptionPane.ERROR_MESSAGE);
                     mainFrame.dispose();
                 } else {
                     mainFrame.setServer(server);

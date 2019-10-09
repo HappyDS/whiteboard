@@ -11,9 +11,18 @@ import java.util.List;
  */
 public class AllData implements Serializable {
     private int code;
+    private String msg;
     private List<IShape> shapeList;
     private List<ChatMessage> messageList;
     private List<String> userList;
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     public int getCode() {
         return code;
