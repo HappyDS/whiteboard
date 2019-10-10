@@ -63,6 +63,8 @@ public abstract class BaseMainFrame extends JFrame {
     }
 
     private void initComponents() {
+        JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+
         chatBoard.setPreferredSize(new Dimension(300, 800));
         userListBoard.setPreferredSize(new Dimension(200, 800));
         add(boardPanel, BorderLayout.CENTER);
