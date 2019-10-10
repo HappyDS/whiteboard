@@ -51,8 +51,8 @@ public class AdminMainFrame extends BaseMainFrame {
         }
     };
 
-    public AdminMainFrame(String username) {
-        super(username);
+    public AdminMainFrame(String username, String windowName) {
+        super(username, windowName);
         userListBoard.initKickOutOption();
     }
 

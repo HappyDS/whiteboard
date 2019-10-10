@@ -51,7 +51,8 @@ public class AdminMain {
     private static void startClient(int remotePort, String username) {
         try {
             /* This client is on admin side, so instantiate an AdminMainFrame */
-            BaseMainFrame mainFrame = new AdminMainFrame(username);
+            String windowName = String.format("%s-Server %s:%s", username, "127.0.0.1", remotePort);
+            BaseMainFrame mainFrame = new AdminMainFrame(username, windowName);
             mainFrame.setResizable(false);
 
             /* Get a random available local port */

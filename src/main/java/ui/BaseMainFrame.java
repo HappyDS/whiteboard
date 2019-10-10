@@ -30,7 +30,8 @@ public abstract class BaseMainFrame extends JFrame {
 
     protected IServer server;
 
-    public BaseMainFrame(String username) {
+    public BaseMainFrame(String username, String windowName) {
+        super(windowName);
         looper = new Looper();
         this.username = username;
         paintBoard = new PaintBoard(username, looper);

@@ -25,7 +25,8 @@ public class UserMain {
         starterFrame.setVisible(true);
         starterFrame.setOnClientConnectClickListener((ip, port, username) -> {
             try {
-                BaseMainFrame mainFrame = new UserMainFrame(username);
+                String windowName = String.format("%s-Client %s:%s", username, ip, port);
+                BaseMainFrame mainFrame = new UserMainFrame(username, windowName);
                 mainFrame.setResizable(false);
                 InetAddress inetAddress = InetAddress.getLocalHost();
 

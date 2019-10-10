@@ -10,8 +10,8 @@ import java.rmi.RemoteException;
  * @date 20/9/19
  */
 public class UserMainFrame extends BaseMainFrame {
-    public UserMainFrame(String username) {
-        super(username);
+    public UserMainFrame(String username, String windowName) {
+        super(username, windowName);
     }
 
     @Override
