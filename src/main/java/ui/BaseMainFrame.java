@@ -11,7 +11,10 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 import java.util.List;
+
+import ui.SizeFitter;
 
 @SuppressWarnings("ALL")
 public abstract class BaseMainFrame extends JFrame {
@@ -63,6 +66,7 @@ public abstract class BaseMainFrame extends JFrame {
         userListBoard.setServer(server);
     }
 
+
     private void initComponents() {
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
@@ -72,12 +76,17 @@ public abstract class BaseMainFrame extends JFrame {
         add(chatBoard, BorderLayout.EAST);
         add(userListBoard, BorderLayout.WEST);
         boardPanel.setLayout(new BorderLayout());
+
 //        PaintBoard paintBoard = new PaintBoard();
         String[] optionListData = new String[]{"Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"};
         JComboBox<String> optionMenu = new JComboBox<>(optionListData);
-        boardPanel.add(optionMenu, BorderLayout.NORTH);
+//        boardPanel.add(optionMenu, BorderLayout.NORTH);
         boardPanel.add(paintBoard, BorderLayout.CENTER);
         boardPanel.add(optionPanel, BorderLayout.SOUTH);
+
+
+        addButtons(boardPanel, Arrays.asList("Line", "Rectangle", "Circle", "Oval", "Free", "Text", "Eraser"));
+
 
         CardLayout cardLayout = new CardLayout();
         optionPanel.setLayout(cardLayout);
@@ -223,4 +232,16 @@ public abstract class BaseMainFrame extends JFrame {
     }
 
     public abstract void onServerDisconnected();
+
+    private void addButtons(JPanel p, List<String> bNames) {
+        JPanel bContainer = new JPanel();
+        bNames.forEach((name) -> {
+            JButton tButton = new JButton(name);
+            tButton.setSize(20, 25);
+            bContainer.add(tButton);
+        });
+        p.add(bContainer, BorderLayout.NORTH);
+    }
+
+    ;
 }
