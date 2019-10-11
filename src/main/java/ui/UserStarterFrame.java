@@ -17,7 +17,7 @@ public class UserStarterFrame extends SizeFitter {
 
     public UserStarterFrame() {
         super("Client Starter");
-        fitSize(320, 280);
+        fitSize(320, 260);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -41,7 +41,7 @@ public class UserStarterFrame extends SizeFitter {
         panel.add(addressText);
 
         JLabel portLabel = new JLabel("Port: ");
-        fitBounds(portLabel, 25, 80, 80, 25);
+        fitBounds(portLabel, 25, 80, 100, 25);
 //        portLabel.setBounds(25, 80, 80, 25);
         panel.add(portLabel);
 
@@ -51,7 +51,7 @@ public class UserStarterFrame extends SizeFitter {
         panel.add(portText);
 
         JLabel usernameLabel = new JLabel("Username: ");
-        fitBounds(usernameLabel, 25, 120, 80, 25);
+        fitBounds(usernameLabel, 25, 120, 100, 25);
 //        usernameLabel.setBounds(25, 120, 80, 25);
         panel.add(usernameLabel);
 
