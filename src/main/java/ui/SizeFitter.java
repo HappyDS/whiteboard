@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class SizeFitter extends JFrame {
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private Dimension defaultSize = new Dimension(2800, 1800);
+    private Dimension defaultSize = new Dimension(1680, 1050);
 
     //    public static int W(double v) {
 //    }

@@ -4,6 +4,7 @@ import util.NumberUtil;
 import util.StringUtil;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Yangzhe Xie
@@ -18,6 +19,7 @@ public class AdminStarterFrame extends SizeFitter {
         super("Admin Starter");
 
         fitSize(320, 240);
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
