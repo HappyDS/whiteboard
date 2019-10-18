@@ -35,7 +35,6 @@ public class AdminStarterFrame extends SizeFitter {
         JLabel usernameLabel = new JLabel("Username: ");
         fitBounds(usernameLabel, 25, 40, 150, 25);
 
-
         panel.add(usernameLabel);
 
         JTextField usernameText = new JTextField(20);

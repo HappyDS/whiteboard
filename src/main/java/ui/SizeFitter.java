@@ -36,12 +36,12 @@ public class SizeFitter extends JFrame {
     public void fitFont(JComponent label) {
         try {
             Font labelFont = label.getFont();
-            String labelText = "label.getText()";
+            String labelText = labelFont.getName();
             int stringWidth = label.getFontMetrics(labelFont).stringWidth(labelText);
             int componentWidth = label.getWidth();
 
             // Find out how much the font can grow in width.
-            double widthRatio = (double) componentWidth / (double) stringWidth;
+            double widthRatio = Math.floor((double) componentWidth / (double) stringWidth);
 
             int newFontSize = (int) (labelFont.getSize() * widthRatio);
             int componentHeight = label.getHeight();
