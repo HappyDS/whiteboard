@@ -34,6 +34,7 @@ public class UserMain {
                 int localPort = s.getLocalPort();
                 s.close();
 
+                System.setProperty("java.rmi.server.hostname", inetAddress.getHostAddress());
                 LocateRegistry.createRegistry(localPort);
                 Registry clientRegistry = LocateRegistry.getRegistry(inetAddress.getHostAddress(), localPort);
                 IClient client = new ClientImpl(mainFrame);
