@@ -16,6 +16,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -73,8 +74,12 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         /* Initialize canvas */
         graphics2D.setColor(Color.WHITE);
         graphics2D.fillRect(0, 0, getSize().width, getSize().height);
-        for (IShape shape : shapeStack) {
-            shape.draw(graphics2D);
+//        for (IShape shape : shapeStack) {
+//            shape.draw(graphics2D);
+//        }
+        Iterator<IShape> it = shapeStack.descendingIterator();
+        while (it.hasNext()) {
+            it.next().draw(graphics2D);
         }
 
         /* If mouse haven't been released */
@@ -229,9 +234,6 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     public synchronized void addShapesWithRepaint(List<IShape> shapes) {
-        System.out.println(shapeStack == null);
-        System.out.println(new Gson().toJson(shapes));
-        shapeStack.clear();
         shapes.remove(null);
         shapeStack.addAll(shapes);
         repaint();
