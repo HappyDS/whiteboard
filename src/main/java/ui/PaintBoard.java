@@ -1,5 +1,6 @@
 package ui;
 
+import com.google.gson.Gson;
 import rmi.IServer;
 import shape.Point;
 import shape.Rectangle;
@@ -17,11 +18,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 @SuppressWarnings("ALL")
 public class PaintBoard extends Canvas implements MouseListener, MouseMotionListener {
 
-    private Stack<IShape> shapeStack;   /* A stack to store all shapes. */
+    private ConcurrentLinkedDeque<IShape> shapeStack;   /* A stack to store all shapes. */
 
     private Point startPoint;
     private Point currentPoint;
@@ -49,7 +51,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         currentColor = Color.BLACK;
-        shapeStack = new Stack<IShape>();
+        shapeStack = new ConcurrentLinkedDeque<IShape>();
         currentShape = ShapeType.LINE;
         this.looper = looper;
     }
@@ -64,7 +66,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
      * @param g
      */
     @Override
-    public void paint(Graphics g) {
+    public synchronized void paint(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -227,9 +229,11 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     public synchronized void addShapesWithRepaint(List<IShape> shapes) {
-        for (IShape shape : shapes) {
-            shapeStack.push(shape);
-        }
+        System.out.println(shapeStack == null);
+        System.out.println(new Gson().toJson(shapes));
+        shapeStack.clear();
+        shapes.remove(null);
+        shapeStack.addAll(shapes);
         repaint();
     }
 
@@ -278,7 +282,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
      * clear the canvas
      */
     public void clearShapes() {
-        while (!shapeStack.empty()) {
+        while (!shapeStack.isEmpty()) {
             shapeStack.pop();
         }
         repaint();
@@ -292,7 +296,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     public void remoteClear() {
-        while (!shapeStack.empty()) {
+        while (!shapeStack.isEmpty()) {
             shapeStack.pop();
         }
         repaint();
@@ -349,7 +353,7 @@ public class PaintBoard extends Canvas implements MouseListener, MouseMotionList
     }
 
     @Override
-    public void update(Graphics g) {
+    public synchronized void update(Graphics g) {
         if (offScreenImage == null) {
             offScreenImage = this.createImage(getWidth(), getHeight());
         }

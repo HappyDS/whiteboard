@@ -32,33 +32,8 @@
     </dependencies>
 
     <build>
-        <finalName>UserMain</finalName>
+        <finalName>AdminMain</finalName>
         <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <!-- User -->
-                        <manifest>
-                            <mainClass>main.UserMain</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>assembly</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-<!--Uncomment this to build jar for Admin-->
 <!--            <plugin>-->
 <!--                <artifactId>maven-assembly-plugin</artifactId>-->
 <!--                <configuration>-->
@@ -67,9 +42,9 @@
 <!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
 <!--                    </descriptorRefs>-->
 <!--                    <archive>-->
-<!--                        &lt;!&ndash; Admin &ndash;&gt;-->
+<!--                        &lt;!&ndash; User &ndash;&gt;-->
 <!--                        <manifest>-->
-<!--                            <mainClass>main.AdminMain</mainClass>-->
+<!--                            <mainClass>main.UserMain</mainClass>-->
 <!--                        </manifest>-->
 <!--                    </archive>-->
 <!--                </configuration>-->
@@ -83,6 +58,31 @@
 <!--                    </execution>-->
 <!--                </executions>-->
 <!--            </plugin>-->
+<!--Uncomment this to build jar for Admin-->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <!-- Admin -->
+                        <manifest>
+                            <mainClass>main.AdminMain</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
