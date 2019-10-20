@@ -50,6 +50,7 @@ public class AdminMain {
      */
     private static void startClient(int remotePort, String username) {
         try {
+            username = username + " (admin)";
             /* This client is on admin side, so instantiate an AdminMainFrame */
             String windowName = String.format("%s-Server %s:%s", username, "127.0.0.1", remotePort);
             BaseMainFrame mainFrame = new AdminMainFrame(username, windowName);
