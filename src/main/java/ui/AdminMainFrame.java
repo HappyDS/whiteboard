@@ -91,7 +91,10 @@ public class AdminMainFrame extends BaseMainFrame {
         clearMenuItem.addActionListener(e -> clear());
         JMenuItem redoMenuItem = new JMenuItem("Undo");
         redoMenuItem.addActionListener(e -> undo());
-        newMenuItem.addActionListener(e -> clear());
+        newMenuItem.addActionListener(e -> {
+            clear();
+            currentFileName = null;
+        });
         editMenu.add(clearMenuItem);
         editMenu.add(redoMenuItem);
 

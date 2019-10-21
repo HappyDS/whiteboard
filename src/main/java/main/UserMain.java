@@ -60,6 +60,8 @@ public class UserMain {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "Server is not available.", "Message", JOptionPane.ERROR_MESSAGE);
             }
         });
     }

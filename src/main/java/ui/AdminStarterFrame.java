@@ -5,6 +5,7 @@ import util.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.Socket;
 
 /**
  * @author Yangzhe Xie
@@ -78,7 +79,6 @@ public class AdminStarterFrame extends SizeFitter {
                         "Please input a valid porn number (0 ~ 65535)", "Message", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
 
             if (onAdminConnectClickListener != null) {
                 onAdminConnectClickListener.onAdminConnectClick(port, username);
