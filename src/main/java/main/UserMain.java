@@ -7,6 +7,7 @@ import rmi.IServer;
 import ui.BaseMainFrame;
 import ui.UserMainFrame;
 import ui.UserStarterFrame;
+import util.MD5Util;
 
 import javax.swing.*;
 import java.net.InetAddress;
@@ -23,7 +24,7 @@ public class UserMain {
     public static void main(String[] args) {
         UserStarterFrame starterFrame = new UserStarterFrame();
         starterFrame.setVisible(true);
-        starterFrame.setOnClientConnectClickListener((ip, port, username) -> {
+        starterFrame.setOnClientConnectClickListener((ip, port, username, password) -> {
             try {
                 String windowName = String.format("%s-Client %s:%s", username, ip, port);
                 BaseMainFrame mainFrame = new UserMainFrame(username, windowName);
@@ -42,7 +43,8 @@ public class UserMain {
 
                 Registry serverRegistry = LocateRegistry.getRegistry(ip, port);
                 IServer server = (IServer) serverRegistry.lookup("Server");
-                AllData allData = server.addUser(new String[]{username, inetAddress.getHostAddress(), String.valueOf(localPort), "Client"});
+                String pass = MD5Util.md5(username + password);
+                AllData allData = server.addUser(new String[]{username, inetAddress.getHostAddress(), String.valueOf(localPort), "Client", pass});
 
                 if (allData.getCode() == -1) {
                     /* Username exists */

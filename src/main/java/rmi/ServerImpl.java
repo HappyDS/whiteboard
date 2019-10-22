@@ -5,6 +5,7 @@ import data.AllData;
 import data.ChatMessage;
 import shape.IShape;
 import util.DateUtil;
+import util.MD5Util;
 import util.NumberUtil;
 import util.StringUtil;
 
@@ -26,9 +27,10 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
     private List<IShape> shapeList = new ArrayList<>();
     private List<ChatMessage> messageList = new ArrayList<>();
     private List<String> userList = new ArrayList<>();
+    private String password;
 
-    public ServerImpl() throws RemoteException {
-
+    public ServerImpl(String password) throws RemoteException {
+        this.password = password;
     }
 
     @Override
@@ -113,6 +115,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             }
             int port = NumberUtil.convertToint(info[2], 1099);
             String serviceName = info[3];
+            String key = info[4];
 
             System.out.println("client: " + host);
             System.out.println("Port: " + port);
@@ -121,6 +124,12 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
             if (userList.contains(username)) {
                 allData.setCode(-1);
                 allData.setMsg("Username exists, please try another one");
+                return allData;
+            }
+
+            if (!StringUtil.equals(MD5Util.md5(username + password), key)) {
+                allData.setCode(-1);
+                allData.setMsg("Wrong password");
                 return allData;
             }
 

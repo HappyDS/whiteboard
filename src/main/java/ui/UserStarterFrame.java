@@ -17,7 +17,7 @@ public class UserStarterFrame extends SizeFitter {
 
     public UserStarterFrame() {
         super("Client Starter");
-        fitSize(320, 260);
+        fitSize(320, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -60,16 +60,26 @@ public class UserStarterFrame extends SizeFitter {
 //        usernameText.setBounds(125, 120, 165, 25);
         panel.add(usernameText);
 
+        JLabel passwordLabel = new JLabel("Password: ");
+        fitBounds(passwordLabel, 25, 160, 100, 25);
+//        usernameLabel.setBounds(25, 120, 80, 25);
+        panel.add(passwordLabel);
+
+        JTextField passwordText = new JTextField(20);
+        fitBounds(passwordText, 125, 160, 165, 25);
+//        usernameText.setBounds(125, 120, 165, 25);
+        panel.add(passwordText);
+
         JButton cancelButton = new JButton("Exit");
         cancelButton.addActionListener(e -> {
             System.exit(0);
         });
-        fitBounds(cancelButton, 25, 170, 100, 25);
+        fitBounds(cancelButton, 25, 210, 100, 25);
 //        cancelButton.setBounds(25, 170, 100, 25);
         panel.add(cancelButton);
 
         JButton connectButton = new JButton("Connect");
-        fitBounds(connectButton, 185, 170, 100, 25);
+        fitBounds(connectButton, 185, 210, 100, 25);
 //        connectButton.setBounds(185, 170, 100, 25);
         panel.add(connectButton);
 
@@ -77,6 +87,7 @@ public class UserStarterFrame extends SizeFitter {
         connectButton.addActionListener(e -> {
             String ip = addressText.getText();
             String username = usernameText.getText();
+            String password = passwordText.getText();
             int port = NumberUtil.convertToint(portText.getText(), -1);
 
             if (!StringUtil.isIP(ip)) {
@@ -101,7 +112,7 @@ public class UserStarterFrame extends SizeFitter {
             }
 
             if (onClientConnectClickListener != null) {
-                onClientConnectClickListener.onClientConnectClick(ip, port, username);
+                onClientConnectClickListener.onClientConnectClick(ip, port, username, password);
             }
         });
     }
@@ -111,6 +122,6 @@ public class UserStarterFrame extends SizeFitter {
     }
 
     public interface OnClientConnectClickListener {
-        void onClientConnectClick(String ip, Integer port, String username);
+        void onClientConnectClick(String ip, Integer port, String username, String password);
     }
 }

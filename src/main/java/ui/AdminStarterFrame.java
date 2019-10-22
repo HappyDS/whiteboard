@@ -19,7 +19,7 @@ public class AdminStarterFrame extends SizeFitter {
     public AdminStarterFrame() {
         super("Admin Starter");
 
-        fitSize(320, 200);
+        fitSize(320, 240);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -50,16 +50,24 @@ public class AdminStarterFrame extends SizeFitter {
         fitBounds(portText, 125, 80, 165, 25);
         panel.add(portText);
 
+        JLabel passwordLabel = new JLabel("Password: ");
+        fitBounds(passwordLabel, 25, 120, 150, 25);
+        panel.add(passwordLabel);
+
+        JTextField passwordText = new JTextField(20);
+        fitBounds(passwordText, 125, 120, 165, 25);
+        panel.add(passwordText);
+
         JButton cancelButton = new JButton("Exit");
         cancelButton.addActionListener(e -> {
             System.exit(0);
         });
-        fitBounds(cancelButton, 25, 120, 120, 25);
+        fitBounds(cancelButton, 25, 160, 120, 25);
 
         panel.add(cancelButton);
 
         JButton connectButton = new JButton("Start");
-        fitBounds(connectButton, 185, 120, 120, 25);
+        fitBounds(connectButton, 185, 160, 120, 25);
 
         panel.add(connectButton);
 
@@ -67,6 +75,7 @@ public class AdminStarterFrame extends SizeFitter {
         connectButton.addActionListener(e -> {
             String username = usernameText.getText();
             int port = NumberUtil.convertToint(portText.getText(), -1);
+            String password = passwordText.getText();
 
             if (StringUtil.isEmpty(username)) {
                 JOptionPane.showMessageDialog(panel,
@@ -81,7 +90,7 @@ public class AdminStarterFrame extends SizeFitter {
             }
 
             if (onAdminConnectClickListener != null) {
-                onAdminConnectClickListener.onAdminConnectClick(port, username);
+                onAdminConnectClickListener.onAdminConnectClick(port, username, password);
             }
         });
     }
@@ -91,6 +100,6 @@ public class AdminStarterFrame extends SizeFitter {
     }
 
     public interface OnAdminConnectClickListener {
-        void onAdminConnectClick(Integer port, String username);
+        void onAdminConnectClick(Integer port, String username, String password);
     }
 }

@@ -7,6 +7,7 @@ import rmi.ServerImpl;
 import ui.AdminMainFrame;
 import ui.AdminStarterFrame;
 import ui.BaseMainFrame;
+import util.MD5Util;
 
 import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
@@ -23,18 +24,18 @@ public class AdminMain {
         AdminStarterFrame starterFrame = new AdminStarterFrame();
         starterFrame.setVisible(true);
 
-        starterFrame.setOnAdminConnectClickListener((port, username) -> {
+        starterFrame.setOnAdminConnectClickListener((port, username, password) -> {
             try {
 //                InetAddress inetAddress = InetAddress.getLocalHost();
                 /* Create a registry on server side */
                 LocateRegistry.createRegistry(port);
                 Registry serverRegistry = LocateRegistry.getRegistry("127.0.0.1", port);
-                IServer server = new ServerImpl();
+                IServer server = new ServerImpl(password);
                 serverRegistry.bind("Server", server);
                 System.out.println("Server is ready");
 
                 /* Start a client on admin side and connect to that server above */
-                startClient(port, username);
+                startClient(port, username, password);
                 starterFrame.dispose();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -48,7 +49,7 @@ public class AdminMain {
      * @param remotePort server port number
      * @param username   client username
      */
-    private static void startClient(int remotePort, String username) {
+    private static void startClient(int remotePort, String username, String password) {
         try {
             username = username + " (admin)";
             /* This client is on admin side, so instantiate an AdminMainFrame */
@@ -72,7 +73,8 @@ public class AdminMain {
             IServer server = (IServer) serverRegistry.lookup("Server");
             /* Send client information to server. The server can connect to the registry on the client
              * side with these information */
-            server.addUser(new String[]{username, "127.0.0.1", String.valueOf(localPort), "Client"});
+            String pass = MD5Util.md5(username + password);
+            server.addUser(new String[]{username, "127.0.0.1", String.valueOf(localPort), "Client", pass});
 
             mainFrame.setServer(server);
             mainFrame.setVisible(true);
