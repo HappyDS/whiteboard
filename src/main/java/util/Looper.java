@@ -8,14 +8,31 @@ import java.util.concurrent.BlockingQueue;
  * @date 6/10/19
  */
 public class Looper {
-    private volatile boolean isWorking = true;
     private final BlockingQueue<Runnable> taskQueue;
+    private volatile boolean isWorking = true;
     private WorkerThread thread;
 
     public Looper() {
         taskQueue = new ArrayBlockingQueue<>(10);
         thread = new WorkerThread();
         thread.start();
+    }
+
+    public boolean post(Runnable task) {
+        try {
+            if (isWorking) {
+                taskQueue.put(task);
+                return true;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void stop() {
+        isWorking = false;
+        thread.interrupt();
     }
 
     /**
@@ -39,22 +56,5 @@ public class Looper {
                 System.out.println("Lopper stopped");
             }
         }
-    }
-
-    public boolean post(Runnable task) {
-        try {
-            if (isWorking) {
-                taskQueue.put(task);
-                return true;
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public void stop() {
-        isWorking = false;
-        thread.interrupt();
     }
 }

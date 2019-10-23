@@ -107,7 +107,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
                 allData.setMsg("Connection refused");
                 return allData;
             }
-            
+
             String username = info[0];
             String host = info[1];
             if (!StringUtil.equals(host, "127.0.0.1")) {

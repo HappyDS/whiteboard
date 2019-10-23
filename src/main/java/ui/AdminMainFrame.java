@@ -18,8 +18,6 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class AdminMainFrame extends BaseMainFrame {
 
-    private String currentFileName = null;
-
     private final FileFilter loadSaveFilter = new FileFilter() {
         @Override
         public boolean accept(File f) {
@@ -50,6 +48,7 @@ public class AdminMainFrame extends BaseMainFrame {
             return ".png";
         }
     };
+    private String currentFileName = null;
 
     public AdminMainFrame(String username, String windowName) {
         super(username, windowName);

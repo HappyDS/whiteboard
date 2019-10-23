@@ -1,6 +1,5 @@
 package ui;
 
-import com.google.gson.Gson;
 import rmi.IServer;
 import shape.Point;
 import shape.Rectangle;
@@ -18,7 +17,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @SuppressWarnings("ALL")
