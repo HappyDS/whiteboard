@@ -32,7 +32,7 @@ public class UserMainFrame extends BaseMainFrame {
     @Override
     public void onServerDisconnected() {
         int res = JOptionPane.showConfirmDialog(this,
-                "Server closed", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+                "Connection lost!", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         if (res == 0) {
             dispose();
             UserMain.main(new String[]{});

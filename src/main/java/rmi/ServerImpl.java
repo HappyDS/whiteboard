@@ -129,7 +129,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
 
             if (!StringUtil.equals(MD5Util.md5(username + password), key)) {
                 allData.setCode(-1);
-                allData.setMsg("Wrong password");
+                allData.setMsg("Wrong Board Pass!");
                 return allData;
             }
 
@@ -140,7 +140,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
                 if (x != 0) {
                     allData.setCode(-1);
-                    allData.setMsg("Connection refused");
+                    allData.setMsg("Connection refused by manager");
                     return allData;
                 }
             }
