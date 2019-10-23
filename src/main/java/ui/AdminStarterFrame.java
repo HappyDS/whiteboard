@@ -50,7 +50,7 @@ public class AdminStarterFrame extends SizeFitter {
         fitBounds(portText, 125, 80, 165, 25);
         panel.add(portText);
 
-        JLabel passwordLabel = new JLabel("Password: ");
+        JLabel passwordLabel = new JLabel("Access key: ");
         fitBounds(passwordLabel, 25, 120, 150, 25);
         panel.add(passwordLabel);
 

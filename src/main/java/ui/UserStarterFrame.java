@@ -60,7 +60,7 @@ public class UserStarterFrame extends SizeFitter {
 //        usernameText.setBounds(125, 120, 165, 25);
         panel.add(usernameText);
 
-        JLabel passwordLabel = new JLabel("Password: ");
+        JLabel passwordLabel = new JLabel("Access key: ");
         fitBounds(passwordLabel, 25, 160, 100, 25);
 //        usernameLabel.setBounds(25, 120, 80, 25);
         panel.add(passwordLabel);
