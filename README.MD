@@ -24,10 +24,7 @@ java -jar UserMain.jar -Djava.security.policy=../policy.policy
 ```
 Don't forget to configure your firewall if you are not running on local.
 ## GUI
-
-<p align="center">
-  <img width="460" height="300" src="[admin-link]">
-</p>  <br>
+[![admin][admin-link]][admin-link]   <br>
 [![user][user-link]][user-link] <br>
 [![whiteboard][whiteboard-link]][whiteboard-link] <br>
 
