@@ -24,11 +24,9 @@ java -jar UserMain.jar -Djava.security.policy=../policy.policy
 ```
 Don't forget to configure your firewall if you are not running on local.
 ## GUI
-[![admin][admin-link]][admin-link]   <br>
-[![user][user-link]][user-link] <br>
-[![whiteboard][whiteboard-link]][whiteboard-link] <br>
 
-
-[admin-link]:https://raw.githubusercontent.com/HappyDS/whiteboard/master/gui/admin.png
-[user-link]:https://raw.githubusercontent.com/HappyDS/whiteboard/master/gui/user.png
-[whiteboard-link]:https://raw.githubusercontent.com/HappyDS/whiteboard/master/gui/whiteboard.png
+<p align="center">
+  <img width="346" height="282" src="https://raw.githubusercontent.com/HappyDS/whiteboard/master/gui/admin.png"> <br>
+    <img width="310" height="294" src="https://raw.githubusercontent.com/HappyDS/whiteboard/master/gui/user.png"> <br>
+    <img width="640" height="525" src="https://raw.githubusercontent.com/HappyDS/whiteboard/master/gui/whiteboard.png"> <br>
+</p>  
